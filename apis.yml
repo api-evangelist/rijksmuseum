@@ -1,0 +1,32 @@
+aid: rijksmuseum
+name: Rijksmuseum
+description: "RijksMuseum Data"
+url: https://data.rijksmuseum.nl/object-metadata/api/
+specificationVersion: '0.20'
+created: '2026-05-28'
+modified: '2026-05-28'
+x-source: public-apis/public-apis
+x-category: "Art & Design"
+x-tier: 3
+x-tier-reason: bulk-registered-from-public-apis
+tags:
+  - Art And Design
+  - Public APIs
+apis:
+  - name: Rijksmuseum
+    description: "RijksMuseum Data"
+    humanURL: https://data.rijksmuseum.nl/object-metadata/api/
+    baseURL: https://data.rijksmuseum.nl/object-metadata/api/
+    tags:
+      - Art And Design
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/object-metadata/api/
+common:
+  - type: Website
+    url: https://data.rijksmuseum.nl/object-metadata/api/
+  - type: PublicAPIsListing
+    url: https://github.com/public-apis/public-apis
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
