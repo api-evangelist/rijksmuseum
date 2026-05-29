@@ -1,0 +1,87 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Rijksmuseum
+providerId: rijksmuseum
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+tags:
+  - Rate Limits
+  - Open Data
+  - Museum
+  - API Key
+description: >-
+  Rijksmuseum data services apply a per-API-key daily request quota of 10,000
+  requests across all REST endpoints (Collection search, Collection Details,
+  Image Tiles, Usersets) and the OAI-PMH harvesting endpoint. There is no
+  documented per-second / burst limit, but the Collection Search response window
+  is capped so that `page * pageSize` cannot exceed 10,000 records — bulk
+  consumers must switch to OAI-PMH (`ListRecords` with resumption tokens) or to
+  the downloadable data dumps. Keys are issued for free via a Rijksstudio
+  account.
+sources:
+  - https://data.rijksmuseum.nl/object-metadata/api/
+  - https://data.rijksmuseum.nl/object-metadata/harvest/
+  - https://www.rijksmuseum.nl/en/data/policy
+
+policies:
+  - id: rijksmuseum-daily-quota
+    name: Per-API-Key Daily Request Quota
+    description: >-
+      Maximum requests per API key per day across the JSON REST endpoints and
+      the OAI-PMH endpoint.
+    scope: api-key
+    type: quota
+    metric: request
+    limit: 10000
+    timeFrame: day
+    geo: global
+    overageBehavior: deny
+    headers: []
+    notes: >-
+      Quota is documented in the museum's developer guide as the maximum
+      retrievable result window per consumer. Bulk consumers should use OAI-PMH
+      harvesting (which supports resumption tokens beyond 10,000 records) or the
+      complete dataset downloads.
+
+  - id: rijksmuseum-search-window
+    name: Collection Search Result Window
+    description: >-
+      The Collection Search API caps deep pagination: `p * ps` (or `page *
+      pageSize`) cannot exceed 10,000. Requests for pages past that point return
+      an error.
+    scope: api-key
+    type: window
+    metric: result
+    limit: 10000
+    timeFrame: usage
+    geo: global
+    overageBehavior: deny
+    headers: []
+    notes: >-
+      Mirrors the museum's own advanced-search UI behaviour and is not a true
+      rate limit but a result-set ceiling. Use OAI-PMH for full-corpus access.
+
+  - id: rijksmuseum-oai-pmh-pacing
+    name: OAI-PMH Resumption Token Pacing
+    description: >-
+      The OAI-PMH endpoint paginates via `resumptionToken`. Tokens expire over
+      time; harvesters must request the next batch promptly.
+    scope: api-key
+    type: token
+    metric: request
+    limit: -1
+    timeFrame: usage
+    geo: global
+    overageBehavior: token-expired
+    headers: []
+    notes: >-
+      No documented per-second cap, but Q42/SimpleOAIHarvester is the
+      Rijksmuseum-endorsed reference implementation and pacing pattern.
+
+defaults:
+  authentication_required: true
+  key_obtain_url: https://www.rijksmuseum.nl/en/rijksstudio
+  key_obtain_cost: free
+  key_obtain_latency: instant

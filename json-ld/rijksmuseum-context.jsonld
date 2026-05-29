@@ -1,0 +1,146 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "rijks": "https://www.rijksmuseum.nl/api/vocabulary#",
+    "schema": "https://schema.org/",
+    "dc": "http://purl.org/dc/terms/",
+    "edm": "http://www.europeana.eu/schemas/edm/",
+    "lido": "http://www.lido-schema.org/",
+    "la": "https://linked.art/ns/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "id": "@id",
+    "type": "@type",
+
+    "ArtObject": "schema:VisualArtwork",
+    "Maker": "schema:Person",
+    "Dimension": "schema:QuantitativeValue",
+    "Exhibition": "schema:ExhibitionEvent",
+    "UserSet": "schema:Collection",
+    "UserSetItem": "schema:CollectionPage",
+
+    "objectNumber": "dc:identifier",
+    "priref": "dc:identifier",
+    "title": "schema:name",
+    "longTitle": "schema:alternateName",
+    "subTitle": "schema:disambiguatingDescription",
+    "titles": {
+      "@id": "schema:alternateName",
+      "@container": "@set"
+    },
+    "description": "schema:description",
+    "labelText": "schema:caption",
+    "language": "schema:inLanguage",
+    "copyrightHolder": "schema:copyrightHolder",
+
+    "principalMaker": "schema:creator",
+    "principalOrFirstMaker": "schema:creator",
+    "principalMakers": {
+      "@id": "schema:creator",
+      "@container": "@set"
+    },
+    "makers": {
+      "@id": "schema:contributor",
+      "@container": "@set"
+    },
+    "historicalPersons": {
+      "@id": "schema:about",
+      "@container": "@set"
+    },
+
+    "objectTypes": {
+      "@id": "schema:artform",
+      "@container": "@set"
+    },
+    "objectCollection": {
+      "@id": "schema:isPartOf",
+      "@container": "@set"
+    },
+    "materials": {
+      "@id": "schema:artMedium",
+      "@container": "@set"
+    },
+    "techniques": {
+      "@id": "schema:artworkSurface",
+      "@container": "@set"
+    },
+    "productionPlaces": {
+      "@id": "schema:locationCreated",
+      "@container": "@set"
+    },
+
+    "dating": "schema:dateCreated",
+    "presentingDate": "schema:dateCreated",
+    "yearEarly": "edm:begin",
+    "yearLate": "edm:end",
+
+    "classification": "schema:keywords",
+    "iconClassIdentifier": {
+      "@id": "skos:notation",
+      "@container": "@set"
+    },
+
+    "acquisition": "schema:acquireLicensePage",
+    "acquisitionMethod": "schema:acquisitionType",
+    "acquisitionDate": "schema:dateReceived",
+    "creditLine": "schema:creditText",
+
+    "dimensions": {
+      "@id": "schema:size",
+      "@container": "@set"
+    },
+    "physicalMedium": "schema:material",
+    "location": "schema:location",
+
+    "hasImage": "schema:image",
+    "webImage": "schema:image",
+    "headerImage": "schema:image",
+    "showImage": "schema:image",
+    "permitDownload": "schema:isAccessibleForFree",
+
+    "links": "schema:url",
+    "self": "schema:url",
+    "web": "schema:mainEntityOfPage",
+    "search": "schema:potentialAction",
+
+    "userSet": "schema:Collection",
+    "userSets": {
+      "@id": "schema:hasPart",
+      "@container": "@set"
+    },
+    "setItems": {
+      "@id": "schema:itemListElement",
+      "@container": "@list"
+    },
+    "user": "schema:creator",
+    "createdOn": "schema:dateCreated",
+    "updatedOn": "schema:dateModified",
+
+    "count": "schema:numberOfItems",
+    "elapsedMilliseconds": "schema:processingTime",
+
+    "name": "schema:name",
+    "unFixedName": "foaf:name",
+    "placeOfBirth": "schema:birthPlace",
+    "dateOfBirth": {
+      "@id": "schema:birthDate",
+      "@type": "xsd:date"
+    },
+    "placeOfDeath": "schema:deathPlace",
+    "dateOfDeath": {
+      "@id": "schema:deathDate",
+      "@type": "xsd:date"
+    },
+    "nationality": "schema:nationality",
+    "occupation": {
+      "@id": "schema:hasOccupation",
+      "@container": "@set"
+    },
+    "roles": {
+      "@id": "schema:roleName",
+      "@container": "@set"
+    },
+    "biography": "schema:description"
+  }
+}

@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/rijksmuseum/refs/heads/main/json-structure/rijksmuseum-art-object-structure.json",
+  "name": "Rijksmuseum Art Object",
+  "description": "Full Rijksmuseum art-object record returned by GET /{culture}/collection/{objectNumber}.",
+  "type": "object",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/object-metadata/api/",
+  "properties": {
+    "links": {
+      "$ref": "#/$defs/ArtObjectLinks"
+    },
+    "id": {
+      "type": "string",
+      "description": "Globally unique identifier including culture prefix.",
+      "examples": [
+        "nl-SK-C-5"
+      ]
+    },
+    "priref": {
+      "type": "string",
+      "description": "Persistent record identifier in the museum's collection management system."
+    },
+    "objectNumber": {
+      "type": "string",
+      "description": "Rijksmuseum inventory number (case-sensitive)."
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "nl",
+        "en"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "copyrightHolder": {
+      "type": "string",
+      "nullable": true
+    },
+    "webImage": {
+      "$ref": "#/$defs/WebImage"
+    },
+    "colors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ColorWeight"
+      }
+    },
+    "colorsWithNormalization": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ColorNormalization"
+      }
+    },
+    "normalizedColors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ColorWeight"
+      }
+    },
+    "normalized32Colors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ColorWeight"
+      }
+    },
+    "titles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "labelText": {
+      "type": "string",
+      "nullable": true
+    },
+    "objectTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objectCollection": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "makers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Maker"
+      }
+    },
+    "principalMakers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Maker"
+      }
+    },
+    "plaqueDescriptionDutch": {
+      "type": "string"
+    },
+    "plaqueDescriptionEnglish": {
+      "type": "string"
+    },
+    "principalMaker": {
+      "type": "string"
+    },
+    "artistRole": {
+      "type": "string",
+      "nullable": true
+    },
+    "associations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "acquisition": {
+      "$ref": "#/$defs/Acquisition"
+    },
+    "exhibitions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "productionPlaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dating": {
+      "$ref": "#/$defs/Dating"
+    },
+    "classification": {
+      "$ref": "#/$defs/Classification"
+    },
+    "hasImage": {
+      "type": "boolean"
+    },
+    "historicalPersons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inscriptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "documentation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "catRefRPK": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "principalOrFirstMaker": {
+      "type": "string"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Dimension"
+      }
+    },
+    "physicalProperties": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "physicalMedium": {
+      "type": "string"
+    },
+    "longTitle": {
+      "type": "string"
+    },
+    "subTitle": {
+      "type": "string"
+    },
+    "scLabelLine": {
+      "type": "string"
+    },
+    "label": {
+      "$ref": "#/$defs/Label"
+    },
+    "showImage": {
+      "type": "boolean"
+    },
+    "location": {
+      "type": "string",
+      "description": "Current location code within the museum."
+    }
+  },
+  "required": [
+    "id",
+    "objectNumber",
+    "title",
+    "hasImage"
+  ],
+  "definitions": {
+    "ArtObjectLinks": {
+      "name": "ArtObjectLinks",
+      "type": "object",
+      "properties": {
+        "self": {
+          "type": "uri"
+        },
+        "web": {
+          "type": "uri"
+        },
+        "search": {
+          "type": "uri"
+        }
+      }
+    },
+    "WebImage": {
+      "name": "WebImage",
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "offsetPercentageX": {
+          "type": "int32"
+        },
+        "offsetPercentageY": {
+          "type": "int32"
+        },
+        "width": {
+          "type": "int32"
+        },
+        "height": {
+          "type": "int32"
+        },
+        "url": {
+          "type": "uri"
+        }
+      }
+    },
+    "Maker": {
+      "name": "Maker",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "unFixedName": {
+          "type": "string"
+        },
+        "placeOfBirth": {
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "dateOfBirthPrecision": {
+          "type": "string",
+          "nullable": true
+        },
+        "dateOfDeath": {
+          "type": "string"
+        },
+        "dateOfDeathPrecision": {
+          "type": "string",
+          "nullable": true
+        },
+        "placeOfDeath": {
+          "type": "string"
+        },
+        "occupation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "biography": {
+          "type": "string",
+          "nullable": true
+        },
+        "productionPlaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "qualification": {
+          "type": "string",
+          "nullable": true
+        }
+      }
+    },
+    "Acquisition": {
+      "name": "Acquisition",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "creditLine": {
+          "type": "string"
+        }
+      }
+    },
+    "Dating": {
+      "name": "Dating",
+      "type": "object",
+      "properties": {
+        "presentingDate": {
+          "type": "string"
+        },
+        "sortingDate": {
+          "type": "int32"
+        },
+        "period": {
+          "type": "int32",
+          "minimum": 0,
+          "maximum": 21
+        },
+        "yearEarly": {
+          "type": "int32"
+        },
+        "yearLate": {
+          "type": "int32"
+        }
+      }
+    },
+    "Classification": {
+      "name": "Classification",
+      "type": "object",
+      "properties": {
+        "iconClassIdentifier": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "iconClassDescription": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "motifs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "objectNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Dimension": {
+      "name": "Dimension",
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string",
+          "nullable": true
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "Label": {
+      "name": "Label",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "makerLine": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        }
+      }
+    },
+    "ColorWeight": {
+      "name": "ColorWeight",
+      "type": "object",
+      "properties": {
+        "percentage": {
+          "type": "int32"
+        },
+        "hex": {
+          "type": "string"
+        }
+      }
+    },
+    "ColorNormalization": {
+      "name": "ColorNormalization",
+      "type": "object",
+      "properties": {
+        "originalHex": {
+          "type": "string"
+        },
+        "normalizedHex": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

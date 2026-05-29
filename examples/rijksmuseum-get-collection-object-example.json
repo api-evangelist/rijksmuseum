@@ -1,0 +1,83 @@
+{
+  "$comment": "Example response for GET /{culture}/collection/{objectNumber} — Get Collection Object Details",
+  "request": {
+    "method": "GET",
+    "url": "https://www.rijksmuseum.nl/api/en/collection/SK-C-5?key=API_KEY"
+  },
+  "response": {
+    "elapsedMilliseconds": 219,
+    "artObject": {
+      "links": {
+        "search": "http://www.rijksmuseum.nl/api/en/collection"
+      },
+      "id": "en-SK-C-5",
+      "priref": "5216",
+      "objectNumber": "SK-C-5",
+      "language": "en",
+      "title": "The Night Watch",
+      "copyrightHolder": null,
+      "webImage": {
+        "guid": "aa08df9c-0af9-4195-b31b-f578fbe0a4c9",
+        "offsetPercentageX": 50,
+        "offsetPercentageY": 100,
+        "width": 2500,
+        "height": 2034,
+        "url": "https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0"
+      },
+      "colors": [
+        { "percentage": 81, "hex": "#261808" },
+        { "percentage": 12, "hex": "#7b6a4f" }
+      ],
+      "normalizedColors": [
+        { "percentage": 81, "hex": "#000000" },
+        { "percentage": 12, "hex": "#808080" }
+      ],
+      "titles": [
+        "Officers and other civic guardsmen of District II of Amsterdam, led by Captain Frans Banninck Cocq and Lieutenant Willem van Ruytenburch, known as the 'Night Watch'"
+      ],
+      "description": "Rembrandt's largest, most famous canvas was made for the Arquebusiers guild hall. This was one of several halls of Amsterdam's civic guard, the city's militia and police.",
+      "objectTypes": ["painting"],
+      "objectCollection": ["paintings"],
+      "principalMakers": [
+        {
+          "name": "Rembrandt van Rijn",
+          "unFixedName": "Rijn, Rembrandt van",
+          "placeOfBirth": "Leiden",
+          "dateOfBirth": "1606-07-15",
+          "dateOfDeath": "1669-10-08",
+          "placeOfDeath": "Amsterdam",
+          "occupation": ["printmaker", "draughtsman", "painter"],
+          "roles": ["painter"],
+          "nationality": "Northern Netherlandish",
+          "productionPlaces": ["Amsterdam"]
+        }
+      ],
+      "plaqueDescriptionEnglish": "Rembrandt's largest, most famous canvas was made for the Arquebusiers guild hall.",
+      "principalMaker": "Rembrandt van Rijn",
+      "materials": ["canvas", "oil paint"],
+      "productionPlaces": ["Amsterdam"],
+      "dating": {
+        "presentingDate": "1642",
+        "sortingDate": 1642,
+        "period": 17,
+        "yearEarly": 1642,
+        "yearLate": 1642
+      },
+      "classification": {
+        "iconClassIdentifier": ["45(+26)"]
+      },
+      "hasImage": true,
+      "principalOrFirstMaker": "Rembrandt van Rijn",
+      "dimensions": [
+        { "unit": "cm", "type": "height", "value": "379.5" },
+        { "unit": "cm", "type": "width", "value": "453.5" },
+        { "unit": "kg", "type": "weight", "value": "337" }
+      ],
+      "physicalMedium": "oil on canvas",
+      "longTitle": "The Night Watch, Rembrandt van Rijn, 1642",
+      "subTitle": "h 379.5cm × w 453.5cm × w 337kg",
+      "showImage": true,
+      "location": "HG-2.31"
+    }
+  }
+}

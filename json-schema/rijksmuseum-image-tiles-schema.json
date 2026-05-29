@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/all/rijksmuseum/json-schema/rijksmuseum-image-tiles-schema.json",
+  "title": "Rijksmuseum Image Tiles",
+  "description": "Tile pyramid for an object's web image returned by GET /{culture}/collection/{objectNumber}/tiles.",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/object-metadata/api/",
+  "type": "object",
+  "properties": {
+    "levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "width", "height", "tiles"],
+        "properties": {
+          "name": { "type": "string", "description": "Level name. `z0` is largest; `z6` is smallest." },
+          "width": { "type": "integer" },
+          "height": { "type": "integer" },
+          "tiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["x", "y", "url"],
+              "properties": {
+                "x": { "type": "integer" },
+                "y": { "type": "integer" },
+                "url": { "type": "string", "format": "uri" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

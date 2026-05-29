@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/all/rijksmuseum/json-schema/rijksmuseum-art-object-summary-schema.json",
+  "title": "Rijksmuseum Art Object Summary",
+  "description": "Lightweight art-object summary returned by GET /{culture}/collection.",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/object-metadata/api/",
+  "type": "object",
+  "required": ["id", "objectNumber", "title", "hasImage"],
+  "properties": {
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "web": { "type": "string", "format": "uri" }
+      }
+    },
+    "id": { "type": "string" },
+    "objectNumber": { "type": "string" },
+    "title": { "type": "string" },
+    "hasImage": { "type": "boolean" },
+    "principalOrFirstMaker": { "type": "string" },
+    "longTitle": { "type": "string" },
+    "showImage": { "type": "boolean" },
+    "permitDownload": { "type": "boolean" },
+    "webImage": {
+      "type": "object",
+      "properties": {
+        "guid": { "type": "string" },
+        "offsetPercentageX": { "type": "integer" },
+        "offsetPercentageY": { "type": "integer" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "headerImage": {
+      "type": "object",
+      "properties": {
+        "guid": { "type": "string" },
+        "offsetPercentageX": { "type": "integer" },
+        "offsetPercentageY": { "type": "integer" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "url": { "type": "string", "format": "uri" }
+      }
+    },
+    "productionPlaces": { "type": "array", "items": { "type": "string" } }
+  }
+}

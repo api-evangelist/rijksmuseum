@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/rijksmuseum/refs/heads/main/json-structure/rijksmuseum-art-object-summary-structure.json",
+  "name": "Rijksmuseum Art Object Summary",
+  "description": "Lightweight art-object summary returned by GET /{culture}/collection.",
+  "type": "object",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/object-metadata/api/",
+  "required": [
+    "id",
+    "objectNumber",
+    "title",
+    "hasImage"
+  ],
+  "properties": {
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": {
+          "type": "uri"
+        },
+        "web": {
+          "type": "uri"
+        }
+      }
+    },
+    "id": {
+      "type": "string"
+    },
+    "objectNumber": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "hasImage": {
+      "type": "boolean"
+    },
+    "principalOrFirstMaker": {
+      "type": "string"
+    },
+    "longTitle": {
+      "type": "string"
+    },
+    "showImage": {
+      "type": "boolean"
+    },
+    "permitDownload": {
+      "type": "boolean"
+    },
+    "webImage": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "offsetPercentageX": {
+          "type": "int32"
+        },
+        "offsetPercentageY": {
+          "type": "int32"
+        },
+        "width": {
+          "type": "int32"
+        },
+        "height": {
+          "type": "int32"
+        },
+        "url": {
+          "type": "uri"
+        }
+      }
+    },
+    "headerImage": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "offsetPercentageX": {
+          "type": "int32"
+        },
+        "offsetPercentageY": {
+          "type": "int32"
+        },
+        "width": {
+          "type": "int32"
+        },
+        "height": {
+          "type": "int32"
+        },
+        "url": {
+          "type": "uri"
+        }
+      }
+    },
+    "productionPlaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

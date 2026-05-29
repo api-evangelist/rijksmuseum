@@ -1,0 +1,134 @@
+extends:
+  - spectral:oas
+
+functions: []
+
+rules:
+  rijksmuseum-info-contact:
+    description: Info object must include a contact email or URL.
+    given: $.info
+    severity: warn
+    then:
+      field: contact
+      function: truthy
+
+  rijksmuseum-info-license:
+    description: Info object must include a license referencing Rijksmuseum data policy.
+    given: $.info
+    severity: warn
+    then:
+      field: license
+      function: truthy
+
+  rijksmuseum-server-must-be-prod:
+    description: The production server must be www.rijksmuseum.nl/api.
+    given: $.servers[*].url
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: '^https://www\\.rijksmuseum\\.nl/api(/oai)?$'
+
+  rijksmuseum-operation-must-have-id:
+    description: Every operation must have an operationId.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: error
+    then:
+      field: operationId
+      function: truthy
+
+  rijksmuseum-operation-must-have-summary:
+    description: Every operation must have a Title-Case summary.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: error
+    then:
+      field: summary
+      function: truthy
+
+  rijksmuseum-operation-must-have-description:
+    description: Every operation must have a description.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: warn
+    then:
+      field: description
+      function: truthy
+
+  rijksmuseum-operation-must-have-tags:
+    description: Every operation must be tagged.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: warn
+    then:
+      field: tags
+      function: truthy
+
+  rijksmuseum-summary-title-case:
+    description: Operation summaries must use Title Case.
+    given: $.paths[*][get,post,put,delete,patch].summary
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][\\w&-]*(?:\\s(?:[A-Z][\\w&-]*|To|The|A|An|And|Or|Of|In|On|For|With|By|At|From|As)){0,}$'
+
+  rijksmuseum-culture-param:
+    description: Every collection path MUST include a culture path parameter.
+    given: $.paths[?(@property =~ /^\\/\\{culture\\}/)]
+    severity: error
+    then:
+      function: truthy
+
+  rijksmuseum-apikey-required:
+    description: All operations must enforce API key security.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: error
+    then:
+      field: security
+      function: truthy
+
+  rijksmuseum-microcks-extension:
+    description: Operations SHOULD include x-microcks-operation for mockability.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: info
+    then:
+      field: x-microcks-operation
+      function: truthy
+
+  rijksmuseum-error-response:
+    description: 4xx error responses must reference the Error schema.
+    given: $.paths[*][get,post,put,delete,patch].responses[?(@property.match(/^4../))].content.*.schema
+    severity: warn
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [$ref]
+
+  rijksmuseum-pagination-cap-described:
+    description: Endpoints with p/ps pagination must document the 10,000 cap.
+    given: $.paths[*].get.description
+    severity: info
+    then:
+      function: pattern
+      functionOptions:
+        match: '10[,]?000|harvest|OAI-PMH'
+
+  rijksmuseum-component-schema-ref:
+    description: Responses should reference component schemas instead of inlining.
+    given: $.paths[*][get,post,put,delete,patch].responses[*].content.*.schema
+    severity: info
+    then:
+      function: truthy
+
+  rijksmuseum-localized-paths:
+    description: Collection/userset paths must be locale-prefixed with {culture}.
+    given: $.paths
+    severity: error
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          patternProperties:
+            "^/(?:\\{culture\\}|oai)": {}
+          additionalProperties: false

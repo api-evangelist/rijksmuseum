@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/all/rijksmuseum/json-schema/rijksmuseum-user-set-schema.json",
+  "title": "Rijksstudio User Set",
+  "description": "Full Rijksstudio user set returned by GET /{culture}/usersets/{setId}, including items.",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/user-generated-content/api/",
+  "type": "object",
+  "properties": {
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "overview": { "type": "string", "format": "uri" },
+        "web": { "type": "string", "format": "uri" }
+      }
+    },
+    "id": { "type": "string" },
+    "count": { "type": "integer" },
+    "type": { "type": "string" },
+    "name": { "type": "string" },
+    "slug": { "type": "string" },
+    "description": { "type": ["string", "null"] },
+    "user": { "$ref": "#/$defs/RijksstudioUser" },
+    "setItems": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/UserSetItem" }
+    },
+    "createdOn": { "type": "string", "format": "date-time" },
+    "updatedOn": { "type": "string", "format": "date-time" }
+  },
+  "required": ["id", "name", "slug", "user", "count"],
+  "$defs": {
+    "RijksstudioUser": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "lang": { "type": "string" },
+        "avatarUrl": { "type": ["string", "null"] },
+        "headerUrl": { "type": ["string", "null"] },
+        "initials": { "type": "string" }
+      }
+    },
+    "UserSetItem": {
+      "type": "object",
+      "properties": {
+        "links": {
+          "type": "object",
+          "properties": {
+            "artobject": { "type": "string", "format": "uri" },
+            "web": { "type": "string", "format": "uri" }
+          }
+        },
+        "id": { "type": "string" },
+        "objectNumber": { "type": "string" },
+        "relation": { "type": "string" },
+        "relationDescription": { "type": "string" },
+        "cropped": { "type": "boolean" },
+        "cropX": { "type": "integer" },
+        "cropY": { "type": "integer" },
+        "cropWidth": { "type": "integer" },
+        "cropHeight": { "type": "integer" },
+        "origWidth": { "type": "integer" },
+        "origHeight": { "type": "integer" },
+        "image": {
+          "type": "object",
+          "properties": {
+            "guid": { "type": "string" },
+            "parentObjectNumber": { "type": "string" },
+            "cdnUrl": { "type": "string", "format": "uri" },
+            "cropX": { "type": "integer" },
+            "cropY": { "type": "integer" },
+            "width": { "type": "integer" },
+            "height": { "type": "integer" },
+            "offsetPercentageX": { "type": "integer" },
+            "offsetPercentageY": { "type": "integer" }
+          }
+        }
+      }
+    }
+  }
+}

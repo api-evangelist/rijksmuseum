@@ -1,0 +1,27 @@
+{
+  "$comment": "Example response for GET /{culture}/collection/{objectNumber}/tiles — Get Collection Object Image Tiles",
+  "request": {
+    "method": "GET",
+    "url": "https://www.rijksmuseum.nl/api/en/collection/SK-C-5/tiles?key=API_KEY"
+  },
+  "response": {
+    "levels": [
+      {
+        "name": "z3",
+        "width": 1771,
+        "height": 1441,
+        "tiles": [
+          { "x": 2, "y": 2, "url": "http://lh3.googleusercontent.com/-I1HN0VxmDySYN5oCqaykuTRukdFh-JemILAmTvHtGsGnBm968CiQpxkfgqQZnbKD5bS1m0tGZYx7v8HFnWjE3kizw=s0" }
+        ]
+      },
+      {
+        "name": "z4",
+        "width": 885,
+        "height": 720,
+        "tiles": [
+          { "x": 1, "y": 0, "url": "http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0" }
+        ]
+      }
+    ]
+  }
+}

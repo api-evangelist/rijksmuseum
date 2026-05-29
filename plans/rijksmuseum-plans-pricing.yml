@@ -1,0 +1,92 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Rijksmuseum
+providerId: rijksmuseum
+created: '2026-05-29'
+modified: '2026-05-29'
+reconciled: true
+tags:
+  - Open Data
+  - Museum
+  - Cultural Heritage
+  - Free Tier
+  - Public Domain
+description: >-
+  The Rijksmuseum data services are offered as a single free open-data plan.
+  Access is gated only by an API key — issued instantly to anyone who creates a
+  free Rijksstudio account at rijksmuseum.nl. The plan exposes the full set of
+  REST endpoints (Collection search, Collection Details, Image Tiles,
+  Rijksstudio user sets) plus the OAI-PMH harvesting protocol and bulk data
+  dumps. There is no paid tier, no usage-tier upsell, and no enterprise
+  contract — the museum's Open Data Policy (in force since 2002) and FAIR data
+  principles commit the institution to keeping the data services free at the
+  point of use. Commercial use of object images licensed CC0 / Public Domain
+  Mark is permitted; modern works and museum building photography may carry
+  CC-BY or other terms documented in the data policy.
+sources:
+  - https://data.rijksmuseum.nl/object-metadata/api/
+  - https://data.rijksmuseum.nl/object-metadata/harvest/
+  - https://www.rijksmuseum.nl/en/rijksstudio
+  - https://www.rijksmuseum.nl/en/data/policy
+plans:
+  - id: rijksmuseum-rijksstudio-open-data
+    name: Rijksstudio Open Data
+    type: freemium
+    description: >-
+      Free open-data plan with an API key issued instantly on Rijksstudio
+      account creation. Covers all REST, OAI-PMH, and bulk-download endpoints.
+    entries:
+      - label: REST API Requests
+        name: rest_requests
+        type: quota
+        metric: request
+        limit: 10000
+        timeFrame: day
+        geo: global
+        unit: 1
+        price: '0'
+        userMultiplied: false
+      - label: Collection Search Result Window
+        name: collection_search_window
+        type: quota
+        metric: result
+        limit: 10000
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0'
+        userMultiplied: false
+      - label: OAI-PMH Harvesting Requests
+        name: oai_pmh_requests
+        type: quota
+        metric: request
+        limit: 10000
+        timeFrame: day
+        geo: global
+        unit: 1
+        price: '0'
+        userMultiplied: false
+      - label: Bulk Data Download
+        name: bulk_data_dumps
+        type: flat
+        metric: download
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0'
+        userMultiplied: false
+    elements:
+      - name: Collection Search API (en + nl)
+      - name: Collection Details API
+      - name: Collection Image Tiles API (deep-zoom z0–z6)
+      - name: Usersets API (Rijksstudio user-generated content)
+      - name: Userset Details API
+      - name: OAI-PMH Harvesting API (Dublin Core, EDM, LIDO)
+      - name: Controlled Vocabularies Download
+      - name: Bibliographic Data (SRU)
+      - name: Persistent Identifier Resolver
+      - name: Linked Data Event Streams (LDES)
+      - name: Linked Art / Europeana Data Model Modelling
+      - name: Public Domain Image Reuse (CC0 / PDM)

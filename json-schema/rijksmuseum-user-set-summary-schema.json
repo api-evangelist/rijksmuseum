@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/all/rijksmuseum/json-schema/rijksmuseum-user-set-summary-schema.json",
+  "title": "Rijksstudio User Set Summary",
+  "description": "Summary entry returned by GET /{culture}/usersets.",
+  "x-schema-source": "documentation",
+  "x-source-url": "https://data.rijksmuseum.nl/user-generated-content/api/",
+  "type": "object",
+  "required": ["id", "name", "slug", "count", "user"],
+  "properties": {
+    "links": {
+      "type": "object",
+      "properties": {
+        "self": { "type": "string", "format": "uri" },
+        "web": { "type": "string", "format": "uri" }
+      }
+    },
+    "id": { "type": "string" },
+    "count": { "type": "integer" },
+    "type": { "type": "string" },
+    "name": { "type": "string" },
+    "slug": { "type": "string" },
+    "description": { "type": ["string", "null"] },
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "lang": { "type": "string" },
+        "avatarUrl": { "type": ["string", "null"] },
+        "headerUrl": { "type": ["string", "null"] },
+        "initials": { "type": "string" }
+      }
+    },
+    "createdOn": { "type": "string", "format": "date-time" },
+    "updatedOn": { "type": "string", "format": "date-time" }
+  }
+}

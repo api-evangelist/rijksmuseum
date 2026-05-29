@@ -1,0 +1,35 @@
+{
+  "$comment": "Example response for GET /{culture}/usersets — List Rijksstudio User Sets",
+  "request": {
+    "method": "GET",
+    "url": "https://www.rijksmuseum.nl/api/en/usersets?key=API_KEY&format=json&page=2"
+  },
+  "response": {
+    "count": 97957,
+    "elapsedMilliseconds": 631,
+    "userSets": [
+      {
+        "links": {
+          "self": "https://www.rijksmuseum.nl/api/usersets/123-setname-3",
+          "web": "https://www.rijksmuseum.nl/en/my/collections/321--john/setname-3"
+        },
+        "id": "123-setname-3",
+        "count": 25,
+        "type": "Default",
+        "name": "setname (3)",
+        "slug": "setname-3",
+        "description": null,
+        "user": {
+          "id": 321,
+          "name": "John",
+          "lang": "en",
+          "avatarUrl": null,
+          "headerUrl": null,
+          "initials": "J"
+        },
+        "createdOn": "2012-11-02T12:28:21.9070376Z",
+        "updatedOn": "2013-04-10T10:50:21.7559145Z"
+      }
+    ]
+  }
+}

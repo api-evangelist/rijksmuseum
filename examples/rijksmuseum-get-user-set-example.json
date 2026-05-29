@@ -1,0 +1,62 @@
+{
+  "$comment": "Example response for GET /{culture}/usersets/{setId} — Get Rijksstudio User Set Details",
+  "request": {
+    "method": "GET",
+    "url": "https://www.rijksmuseum.nl/api/en/usersets/1836065-meestermatches?key=API_KEY&format=json"
+  },
+  "response": {
+    "elapsedMilliseconds": 505,
+    "userSet": {
+      "links": {
+        "overview": "https://www.rijksmuseum.nl/api/usersets",
+        "web": "https://www.rijksmuseum.nl/en/my/collections/321--john/setname-3"
+      },
+      "id": "123-setname-3",
+      "count": 25,
+      "type": "Default",
+      "name": "setname (3)",
+      "slug": "setname-3",
+      "description": null,
+      "user": {
+        "id": 321,
+        "name": "John",
+        "lang": "en",
+        "avatarUrl": null,
+        "headerUrl": null,
+        "initials": "J"
+      },
+      "setItems": [
+        {
+          "links": {
+            "artobject": "https://www.rijksmuseum.nl/api/en/collection/SK-A-3148",
+            "web": "https://www.rijksmuseum.nl/en/collection/SK-A-3148"
+          },
+          "id": "8c6e3ec4-08d9-4547-b72a-36907c0a3823",
+          "objectNumber": "SK-A-3148",
+          "relation": "None",
+          "relationDescription": "Held",
+          "cropped": false,
+          "cropX": 0,
+          "cropY": 0,
+          "cropWidth": 0,
+          "cropHeight": 0,
+          "origWidth": 0,
+          "origHeight": 0,
+          "image": {
+            "guid": "6d40dc7d-e58c-4e13-812d-60cff190a3d5",
+            "parentObjectNumber": "SK-A-3148",
+            "cdnUrl": "http://lh4.ggpht.com/X6E9IJ33ioVI1W7x0XgDedCmAu5NizMlLuX2f6gSgmpFqMxCCU1qOSCOqc2ORrLw-nHLtaph1zStxZFKKWqlnRU1IUw=s0",
+            "cropX": 0,
+            "cropY": 0,
+            "width": 1824,
+            "height": 2500,
+            "offsetPercentageX": 50,
+            "offsetPercentageY": 36
+          }
+        }
+      ],
+      "createdOn": "2012-11-02T12:28:21.9070376Z",
+      "updatedOn": "2013-04-10T10:50:21.7559145Z"
+    }
+  }
+}

@@ -1,32 +1,258 @@
 aid: rijksmuseum
 name: Rijksmuseum
-description: "RijksMuseum Data"
-url: https://data.rijksmuseum.nl/object-metadata/api/
+description: >-
+  Rijksmuseum is the Dutch national museum dedicated to Dutch arts and history,
+  located in Amsterdam. Its RijksData open-data programme exposes more than
+  800,000 collection object metadata records, 600,000+ public-domain images,
+  320,000 bibliographic records, 160,000 actor / institution records, and 70,000
+  controlled-vocabulary terms through a family of JSON-based REST APIs, an
+  OAI-PMH harvesting endpoint, IIIF tile services, and linked-data dumps.
+url: https://data.rijksmuseum.nl/
+image: https://www.rijksmuseum.nl/assets/site/img/logo.png
 specificationVersion: '0.20'
 created: '2026-05-28'
-modified: '2026-05-28'
+modified: '2026-05-29'
+x-type: opensource
 x-source: public-apis/public-apis
 x-category: "Art & Design"
-x-tier: 3
-x-tier-reason: bulk-registered-from-public-apis
+x-tier: 2
+x-tier-reason: museum-open-data-with-api-key-and-rich-public-domain-content
+x-governance: open-data
+x-license-policy: cc0-or-public-domain-for-most-images
 tags:
   - Art And Design
+  - Museums
+  - Cultural Heritage
+  - Open Data
+  - Linked Data
+  - OAI-PMH
+  - IIIF
+  - Dutch Heritage
   - Public APIs
 apis:
-  - name: Rijksmuseum
-    description: "RijksMuseum Data"
+  - name: Collection Search API
+    description: >-
+      Returns a paginated list of objects in the Rijksmuseum collection. Mirrors
+      the museum's own advanced-search experience and supports rich filters by
+      maker, type, material, technique, century, dominant colour, image
+      availability, and top-piece status. Results are language-localised via the
+      culture path segment (`nl` or `en`) and capped at 10,000 objects per query
+      (page * pageSize <= 10,000).
     humanURL: https://data.rijksmuseum.nl/object-metadata/api/
-    baseURL: https://data.rijksmuseum.nl/object-metadata/api/
+    baseURL: https://www.rijksmuseum.nl/api
     tags:
+      - Collection
+      - Search
       - Art And Design
     properties:
       - type: Documentation
         url: https://data.rijksmuseum.nl/object-metadata/api/
+      - type: OpenAPI
+        url: openapi/rijksmuseum-collection-openapi.yml
+      - type: JSONSchema
+        url: json-schema/rijksmuseum-art-object-summary-schema.json
+      - type: NaftikoCapability
+        url: capabilities/collection-collection.yaml
+
+  - name: Collection Details API
+    description: >-
+      Returns the full record for a single object identified by its
+      object-number (e.g. `SK-C-5`). Includes title, descriptions, principal
+      maker biography, dating, dimensions, materials, techniques, classification
+      (Iconclass), colours, plaque text in both Dutch and English, acquisition
+      history, exhibitions, and the web image with offset percentages.
+    humanURL: https://data.rijksmuseum.nl/object-metadata/api/
+    baseURL: https://www.rijksmuseum.nl/api
+    tags:
+      - Collection
+      - Object Details
+      - Art And Design
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/object-metadata/api/
+      - type: OpenAPI
+        url: openapi/rijksmuseum-collection-openapi.yml
+      - type: JSONSchema
+        url: json-schema/rijksmuseum-art-object-schema.json
+      - type: NaftikoCapability
+        url: capabilities/collection-object-details.yaml
+
+  - name: Collection Image Tiles API
+    description: >-
+      Returns a tile-pyramid description for an object's web image to power deep
+      zoom experiences (the same scheme used on rijksmuseum.nl). Each level (z0
+      to z6) lists tile URLs with x/y coordinates and the level's total
+      width/height. JSON-only.
+    humanURL: https://data.rijksmuseum.nl/object-metadata/api/
+    baseURL: https://www.rijksmuseum.nl/api
+    tags:
+      - Collection
+      - Images
+      - Deep Zoom
+      - IIIF Adjacent
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/object-metadata/api/
+      - type: OpenAPI
+        url: openapi/rijksmuseum-collection-openapi.yml
+      - type: JSONSchema
+        url: json-schema/rijksmuseum-image-tiles-schema.json
+      - type: NaftikoCapability
+        url: capabilities/collection-images.yaml
+
+  - name: Usersets API
+    description: >-
+      Lists user-generated sets ("Rijksstudio sets") of objects curated by
+      Rijksstudio members. Each set has an owner, name, slug, object count, and
+      created/updated timestamps. Useful for surfacing community-curated mini
+      exhibitions and personal collections.
+    humanURL: https://data.rijksmuseum.nl/user-generated-content/api/
+    baseURL: https://www.rijksmuseum.nl/api
+    tags:
+      - User Generated Content
+      - Sets
+      - Rijksstudio
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/user-generated-content/api/
+      - type: OpenAPI
+        url: openapi/rijksmuseum-user-sets-openapi.yml
+      - type: JSONSchema
+        url: json-schema/rijksmuseum-user-set-summary-schema.json
+      - type: NaftikoCapability
+        url: capabilities/user-sets-user-generated-content.yaml
+
+  - name: Userset Details API
+    description: >-
+      Returns the full contents of a single Rijksstudio set including the
+      owner profile, the ordered list of set items (each linking to a Collection
+      object and image), and crop metadata for cover images.
+    humanURL: https://data.rijksmuseum.nl/user-generated-content/api/
+    baseURL: https://www.rijksmuseum.nl/api
+    tags:
+      - User Generated Content
+      - Sets
+      - Rijksstudio
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/user-generated-content/api/
+      - type: OpenAPI
+        url: openapi/rijksmuseum-user-sets-openapi.yml
+      - type: JSONSchema
+        url: json-schema/rijksmuseum-user-set-schema.json
+      - type: NaftikoCapability
+        url: capabilities/user-sets-user-generated-content.yaml
+
+  - name: OAI-PMH Harvesting API
+    description: >-
+      Standards-based bulk harvesting endpoint implementing the Open Archives
+      Initiative Protocol for Metadata Harvesting (OAI-PMH 2.0). Supports
+      ListRecords, GetRecord, ListMetadataFormats, ListSets, and ListIdentifiers
+      verbs across the Dublin Core (dc), Europeana Data Model (edm_dc), and
+      LIDO metadata formats. Use this — not the Collection Search API — to
+      mirror more than 600,000 object records beyond the 10,000-object search
+      ceiling.
+    humanURL: https://data.rijksmuseum.nl/object-metadata/harvest/
+    baseURL: https://www.rijksmuseum.nl/api/oai
+    tags:
+      - OAI-PMH
+      - Harvesting
+      - Bulk Data
+      - Dublin Core
+      - Europeana
+      - LIDO
+    properties:
+      - type: Documentation
+        url: https://data.rijksmuseum.nl/object-metadata/harvest/
+      - type: CodeExamples
+        url: https://github.com/Q42/SimpleOAIHarvester
+        title: SimpleOAIHarvester Reference Script
+
 common:
   - type: Website
-    url: https://data.rijksmuseum.nl/object-metadata/api/
-  - type: PublicAPIsListing
-    url: https://github.com/public-apis/public-apis
+    url: https://www.rijksmuseum.nl/en
+  - type: Documentation
+    url: https://data.rijksmuseum.nl/
+  - type: Documentation
+    url: https://rijksmuseum.github.io/
+    title: Legacy API Documentation (Archived)
+  - type: GitHubOrganization
+    url: https://github.com/Rijksmuseum
+  - type: SignUp
+    url: https://www.rijksmuseum.nl/en/rijksstudio
+    title: Rijksstudio Account For API Key
+  - type: Authentication
+    url: https://data.rijksmuseum.nl/object-metadata/api/#access-to-apis
+  - type: Plans
+    url: plans/rijksmuseum-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/rijksmuseum-rate-limits.yml
+  - type: TermsOfService
+    url: https://www.rijksmuseum.nl/en/data/policy
+    title: Information And Data Policy
+  - type: License
+    url: https://creativecommons.org/publicdomain/mark/1.0/
+    title: Public Domain Mark For Most Object Images
+  - type: License
+    url: https://creativecommons.org/licenses/by/4.0/
+    title: CC-BY For Photography Of The Building And Modern Works
+  - type: Knowledge
+    url: https://www.rijksmuseum.nl/en/data/policy
+    title: Open Data Policy
+  - type: Vocabulary
+    url: vocabulary/rijksmuseum-vocabulary.yml
+  - type: Discovery
+    url: https://data.rijksmuseum.nl/controlled-vocabularies/
+    title: Controlled Vocabularies (Actors, Places, Concepts, Events)
+  - type: Discovery
+    url: https://data.rijksmuseum.nl/bibliographic-data/
+    title: SRU Bibliographic Catalogue
+  - type: Integrations
+    url: https://lido-schema.org/
+    title: LIDO (Lightweight Information Describing Objects)
+  - type: Integrations
+    url: https://pro.europeana.eu/edm-documentation
+    title: Europeana Data Model (EDM)
+  - type: Integrations
+    url: https://www.dublincore.org/specifications/dublin-core/
+    title: Dublin Core
+  - type: Integrations
+    url: https://linked.art/
+    title: Linked Art
+  - type: Integrations
+    url: https://iiif.io/
+    title: IIIF
+  - type: Tools
+    url: https://github.com/Rijksmuseum/aio_oai_repo
+    title: aio_oai_repo — Configurable OAI-PMH Repository Library (Python)
+  - type: Tools
+    url: https://github.com/r-huijts/rijksmuseum-mcp
+    title: MCP Server (Community — Artwork Exploration And Analysis)
+  - type: Tools
+    url: https://github.com/kintopp/rijksmuseum-mcp-plus
+    title: MCP Server (Community — Semantic Search, Provenance, Similarity, Spatial Reasoning)
+  - type: Tools
+    url: https://github.com/kintopp/rijksmuseum-mcp-client
+    title: MCP Client (Community — Web Client For MCP+ Server)
+  - type: Tools
+    url: https://github.com/lwsinclair/rijksmuseum-mcp-oaipmh
+    title: MCP Server (Community — OAI-PMH Harvesting)
+  - type: Tools
+    url: https://github.com/kintopp/rijksmuseum-iconclass-mcp
+    title: MCP Server (Community — Iconclass Semantic Search)
+  - type: Tools
+    url: https://github.com/chandhoke/archival-imagery-mcp
+    title: MCP Server (Community — Multi-Museum Imagery, Includes Rijksmuseum)
+  - type: SDK
+    url: https://github.com/hay/rijksmuseumapi
+    title: PHP Client (Community)
+  - type: SDK
+    url: https://github.com/yutongquan/rijksmuseum_py
+    title: Python Client (Community)
+  - type: CodeExamples
+    url: https://github.com/Q42/SimpleOAIHarvester
+    title: SimpleOAIHarvester — Reference Harvester Script
+
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

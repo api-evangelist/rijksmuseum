@@ -1,0 +1,122 @@
+name: Rijksmuseum Vocabulary
+description: >-
+  Domain vocabulary mapping the operational, capability, and semantic
+  dimensions of the Rijksmuseum data services. Aligns the Rijksmuseum's own
+  object-metadata terms with widely-adopted cultural-heritage vocabularies
+  (Dublin Core, Europeana Data Model, LIDO, Linked Art, Iconclass, schema.org).
+specificationVersion: '0.1'
+created: '2026-05-29'
+modified: '2026-05-29'
+
+operational_dimensions:
+  api_styles:
+    - REST (JSON)
+    - REST (XML/JSONP)
+    - OAI-PMH (XML)
+    - IIIF-adjacent Tile Pyramid
+    - SRU (bibliographic)
+  authentication:
+    - API Key (query parameter `key`)
+  localization:
+    - nl (Dutch)
+    - en (English)
+  pagination:
+    - p / ps (collection search; capped at 10,000)
+    - page / pageSize (user sets)
+    - resumptionToken (OAI-PMH)
+  rate_limits:
+    - per-key, 10,000 requests per day (documented)
+  formats:
+    - json (default)
+    - jsonp (callback)
+    - xml
+
+capability_dimensions:
+  read:
+    - Search collection
+    - Get collection object
+    - Get image tile pyramid
+    - List Rijksstudio user sets
+    - Get Rijksstudio user set
+    - Harvest objects via OAI-PMH (Dublin Core, EDM, LIDO)
+  write: []
+  curate:
+    - Aggregate community sets (Rijksstudio)
+  enrich:
+    - Iconclass classification
+    - Controlled vocabularies (actors, places, concepts, events)
+    - Colour palette (32-colour normalised)
+    - Linked Art / EDM modelling
+
+domain_terms:
+  artworks:
+    - Schilderij / Painting
+    - Prent / Print
+    - Tekening / Drawing
+    - Beeldhouwwerk / Sculpture
+    - Foto / Photograph
+    - Toegepaste kunst / Decorative arts
+  materials:
+    - Doek / Canvas
+    - Olieverf / Oil paint
+    - Papier / Paper
+    - Brons / Bronze
+    - Aquarel / Watercolour
+  techniques:
+    - Schilderkunst / Painting
+    - Etsen / Etching
+    - Gravure / Engraving
+    - Houtsnede / Woodcut
+    - Lithografie / Lithography
+  classification_systems:
+    - Iconclass
+    - AAT (Art & Architecture Thesaurus)
+    - Wikidata
+    - Geonames
+
+semantic_alignments:
+  schema_org:
+    ArtObject: schema:VisualArtwork
+    Maker: schema:Person
+    UserSet: schema:Collection
+    Exhibition: schema:ExhibitionEvent
+    Dimension: schema:QuantitativeValue
+  dublin_core:
+    title: dc:title
+    creator: dc:creator
+    subject: dc:subject
+    description: dc:description
+    date: dc:date
+    type: dc:type
+    format: dc:format
+    identifier: dc:identifier
+    language: dc:language
+    publisher: dc:publisher
+    rights: dc:rights
+    coverage: dc:coverage
+  europeana_edm:
+    ArtObject: edm:ProvidedCHO
+    WebImage: edm:WebResource
+    Aggregation: ore:Aggregation
+  linked_art:
+    ArtObject: la:HumanMadeObject
+    Maker: la:Person
+    Place: la:Place
+    Material: la:Material
+
+provider_context:
+  governance: open-data
+  steward: Rijksmuseum, Amsterdam
+  policy_url: https://www.rijksmuseum.nl/en/data/policy
+  programme: RijksData
+  data_principles:
+    - FAIR (Findable, Accessible, Interoperable, Reusable)
+  licensing:
+    images: Public Domain Mark (for most public-domain works)
+    metadata: Open (governed by the museum's data policy)
+  scale:
+    object_metadata_records: 800000
+    public_domain_images: 600000
+    bibliographic_records: 320000
+    actor_records: 160000
+    vocabulary_terms: 70000

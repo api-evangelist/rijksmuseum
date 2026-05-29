@@ -1,0 +1,103 @@
+naftiko: "1.0.0-alpha2"
+
+info:
+  label: "Rijksmuseum Collection API — Object Details"
+  description: >-
+    Collection — Object Details. 1 operation. Lead operation: Get Collection
+    Object Details. Self-contained Naftiko capability covering one Rijksmuseum
+    business surface.
+  tags:
+    - Rijksmuseum
+    - Collection
+    - Object Details
+  created: "2026-05-29"
+  modified: "2026-05-29"
+
+binds:
+  - namespace: env
+    keys:
+      RIJKSMUSEUM_API_KEY: RIJKSMUSEUM_API_KEY
+
+capability:
+
+  consumes:
+    - type: http
+      namespace: "collection-object-details"
+      baseUri: "https://www.rijksmuseum.nl/api"
+      description: "Rijksmuseum Collection API — Object Details business capability. Self-contained, no shared references."
+      authentication:
+        type: apikey
+        key: key
+        value: "{{env.RIJKSMUSEUM_API_KEY}}"
+        placement: query
+      resources:
+        - name: "collection-object"
+          path: "/{culture}/collection/{objectNumber}"
+          operations:
+            - name: "getCollectionObject"
+              method: GET
+              description: "Return the full record for a single Rijksmuseum object by its inventory number."
+              inputParameters:
+                - name: "culture"
+                  in: path
+                  type: string
+                  required: true
+                  description: "Locale: `nl` or `en`."
+                - name: "objectNumber"
+                  in: path
+                  type: string
+                  required: true
+                  description: "Case-sensitive object identifier (e.g. SK-C-5)."
+                - name: "format"
+                  in: query
+                  type: string
+                  required: false
+                  description: "Response format."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      namespace: "collection-object-details-rest"
+      port: 8080
+      description: "REST adapter for Rijksmuseum Collection API — Object Details."
+      resources:
+        - path: "/v1/cultures/{culture}/collection/{object-number}"
+          name: "collection-object"
+          description: "REST surface for a single Rijksmuseum object."
+          operations:
+            - method: GET
+              name: "getCollectionObject"
+              description: "Get Collection Object Details."
+              call: "collection-object-details.getCollectionObject"
+              with:
+                culture: "rest.culture"
+                objectNumber: "rest.object-number"
+                format: "rest.format"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      namespace: "collection-object-details-mcp"
+      port: 9090
+      transport: http
+      description: "MCP adapter for Rijksmuseum Collection API — Object Details."
+      tools:
+        - name: "get-collection-object"
+          description: "Get Collection Object Details."
+          hints:
+            readOnly: true
+            destructive: false
+            idempotent: true
+          call: "collection-object-details.getCollectionObject"
+          with:
+            culture: "tools.culture"
+            objectNumber: "tools.objectNumber"
+            format: "tools.format"
+          outputParameters:
+            - type: object
+              mapping: "$."
