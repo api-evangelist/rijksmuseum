@@ -1,12 +1,10 @@
 aid: rijksmuseum
 name: Rijksmuseum
 description: >-
-  Rijksmuseum is the Dutch national museum dedicated to Dutch arts and history,
-  located in Amsterdam. Its RijksData open-data programme exposes more than
-  800,000 collection object metadata records, 600,000+ public-domain images,
-  320,000 bibliographic records, 160,000 actor / institution records, and 70,000
-  controlled-vocabulary terms through a family of JSON-based REST APIs, an
-  OAI-PMH harvesting endpoint, IIIF tile services, and linked-data dumps.
+  Rijksmuseum is the Dutch national museum dedicated to Dutch arts and history, located in Amsterdam. Its RijksData
+  open-data programme exposes more than 800,000 collection object metadata records, 600,000+ public-domain images,
+  320,000 bibliographic records, 160,000 actor / institution records, and 70,000 controlled-vocabulary terms through a
+  family of JSON-based REST APIs, an OAI-PMH harvesting endpoint, IIIF tile services, and linked-data dumps.
 url: https://data.rijksmuseum.nl/
 image: https://www.rijksmuseum.nl/assets/site/img/logo.png
 specificationVersion: '0.20'
@@ -14,7 +12,7 @@ created: '2026-05-28'
 modified: '2026-05-29'
 x-type: opensource
 x-source: public-apis/public-apis
-x-category: "Art & Design"
+x-category: Art & Design
 x-tier: 2
 x-tier-reason: museum-open-data-with-api-key-and-rich-public-domain-content
 x-governance: open-data
@@ -32,12 +30,10 @@ tags:
 apis:
   - name: Collection Search API
     description: >-
-      Returns a paginated list of objects in the Rijksmuseum collection. Mirrors
-      the museum's own advanced-search experience and supports rich filters by
-      maker, type, material, technique, century, dominant colour, image
-      availability, and top-piece status. Results are language-localised via the
-      culture path segment (`nl` or `en`) and capped at 10,000 objects per query
-      (page * pageSize <= 10,000).
+      Returns a paginated list of objects in the Rijksmuseum collection. Mirrors the museum's own advanced-search
+      experience and supports rich filters by maker, type, material, technique, century, dominant colour, image
+      availability, and top-piece status. Results are language-localised via the culture path segment (`nl` or `en`) and
+      capped at 10,000 objects per query (page * pageSize <= 10,000).
     humanURL: https://data.rijksmuseum.nl/object-metadata/api/
     baseURL: https://www.rijksmuseum.nl/api
     tags:
@@ -51,16 +47,12 @@ apis:
         url: openapi/rijksmuseum-collection-openapi.yml
       - type: JSONSchema
         url: json-schema/rijksmuseum-art-object-summary-schema.json
-      - type: NaftikoCapability
-        url: capabilities/collection-collection.yaml
-
   - name: Collection Details API
     description: >-
-      Returns the full record for a single object identified by its
-      object-number (e.g. `SK-C-5`). Includes title, descriptions, principal
-      maker biography, dating, dimensions, materials, techniques, classification
-      (Iconclass), colours, plaque text in both Dutch and English, acquisition
-      history, exhibitions, and the web image with offset percentages.
+      Returns the full record for a single object identified by its object-number (e.g. `SK-C-5`). Includes title,
+      descriptions, principal maker biography, dating, dimensions, materials, techniques, classification (Iconclass),
+      colours, plaque text in both Dutch and English, acquisition history, exhibitions, and the web image with offset
+      percentages.
     humanURL: https://data.rijksmuseum.nl/object-metadata/api/
     baseURL: https://www.rijksmuseum.nl/api
     tags:
@@ -74,15 +66,11 @@ apis:
         url: openapi/rijksmuseum-collection-openapi.yml
       - type: JSONSchema
         url: json-schema/rijksmuseum-art-object-schema.json
-      - type: NaftikoCapability
-        url: capabilities/collection-object-details.yaml
-
   - name: Collection Image Tiles API
     description: >-
-      Returns a tile-pyramid description for an object's web image to power deep
-      zoom experiences (the same scheme used on rijksmuseum.nl). Each level (z0
-      to z6) lists tile URLs with x/y coordinates and the level's total
-      width/height. JSON-only.
+      Returns a tile-pyramid description for an object's web image to power deep zoom experiences (the same scheme used
+      on rijksmuseum.nl). Each level (z0 to z6) lists tile URLs with x/y coordinates and the level's total width/height.
+      JSON-only.
     humanURL: https://data.rijksmuseum.nl/object-metadata/api/
     baseURL: https://www.rijksmuseum.nl/api
     tags:
@@ -97,15 +85,11 @@ apis:
         url: openapi/rijksmuseum-collection-openapi.yml
       - type: JSONSchema
         url: json-schema/rijksmuseum-image-tiles-schema.json
-      - type: NaftikoCapability
-        url: capabilities/collection-images.yaml
-
   - name: Usersets API
     description: >-
-      Lists user-generated sets ("Rijksstudio sets") of objects curated by
-      Rijksstudio members. Each set has an owner, name, slug, object count, and
-      created/updated timestamps. Useful for surfacing community-curated mini
-      exhibitions and personal collections.
+      Lists user-generated sets ("Rijksstudio sets") of objects curated by Rijksstudio members. Each set has an owner,
+      name, slug, object count, and created/updated timestamps. Useful for surfacing community-curated mini exhibitions
+      and personal collections.
     humanURL: https://data.rijksmuseum.nl/user-generated-content/api/
     baseURL: https://www.rijksmuseum.nl/api
     tags:
@@ -119,14 +103,10 @@ apis:
         url: openapi/rijksmuseum-user-sets-openapi.yml
       - type: JSONSchema
         url: json-schema/rijksmuseum-user-set-summary-schema.json
-      - type: NaftikoCapability
-        url: capabilities/user-sets-user-generated-content.yaml
-
   - name: Userset Details API
     description: >-
-      Returns the full contents of a single Rijksstudio set including the
-      owner profile, the ordered list of set items (each linking to a Collection
-      object and image), and crop metadata for cover images.
+      Returns the full contents of a single Rijksstudio set including the owner profile, the ordered list of set items
+      (each linking to a Collection object and image), and crop metadata for cover images.
     humanURL: https://data.rijksmuseum.nl/user-generated-content/api/
     baseURL: https://www.rijksmuseum.nl/api
     tags:
@@ -140,18 +120,12 @@ apis:
         url: openapi/rijksmuseum-user-sets-openapi.yml
       - type: JSONSchema
         url: json-schema/rijksmuseum-user-set-schema.json
-      - type: NaftikoCapability
-        url: capabilities/user-sets-user-generated-content.yaml
-
   - name: OAI-PMH Harvesting API
     description: >-
-      Standards-based bulk harvesting endpoint implementing the Open Archives
-      Initiative Protocol for Metadata Harvesting (OAI-PMH 2.0). Supports
-      ListRecords, GetRecord, ListMetadataFormats, ListSets, and ListIdentifiers
-      verbs across the Dublin Core (dc), Europeana Data Model (edm_dc), and
-      LIDO metadata formats. Use this — not the Collection Search API — to
-      mirror more than 600,000 object records beyond the 10,000-object search
-      ceiling.
+      Standards-based bulk harvesting endpoint implementing the Open Archives Initiative Protocol for Metadata
+      Harvesting (OAI-PMH 2.0). Supports ListRecords, GetRecord, ListMetadataFormats, ListSets, and ListIdentifiers
+      verbs across the Dublin Core (dc), Europeana Data Model (edm_dc), and LIDO metadata formats. Use this — not the
+      Collection Search API — to mirror more than 600,000 object records beyond the 10,000-object search ceiling.
     humanURL: https://data.rijksmuseum.nl/object-metadata/harvest/
     baseURL: https://www.rijksmuseum.nl/api/oai
     tags:
@@ -167,7 +141,6 @@ apis:
       - type: CodeExamples
         url: https://github.com/Q42/SimpleOAIHarvester
         title: SimpleOAIHarvester Reference Script
-
 common:
   - type: Website
     url: https://www.rijksmuseum.nl/en
@@ -252,7 +225,6 @@ common:
   - type: CodeExamples
     url: https://github.com/Q42/SimpleOAIHarvester
     title: SimpleOAIHarvester — Reference Harvester Script
-
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

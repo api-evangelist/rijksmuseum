@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Rijksmuseum Usersets API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User Generated Content",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Rijksstudio User Sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.rijksmuseum.nl/api/:culture/usersets",
+            "params": [
+              {
+                "name": "culture",
+                "value": "",
+                "type": "path",
+                "description": "Locale for the response content (`nl` Dutch, `en` English)."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "The caller's Rijksstudio API key."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. JSON is the default."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Result page number (0-based). `page * pageSize` cannot exceed 10,000."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of Rijksstudio user sets. `page * pageSize`\ncannot exceed 10,000.\n"
+        },
+        {
+          "info": {
+            "name": "Get Rijksstudio User Set Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.rijksmuseum.nl/api/:culture/usersets/:setId",
+            "params": [
+              {
+                "name": "culture",
+                "value": "",
+                "type": "path",
+                "description": "Locale for the response content (`nl` Dutch, `en` English)."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "The caller's Rijksstudio API key."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. JSON is the default."
+              },
+              {
+                "name": "setId",
+                "value": "",
+                "type": "path",
+                "description": "Composite set identifier of the form `{userId}-{slug}` (e.g.\n`1836065-meestermatches`).\n"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Result page number (0-based) for the embedded `setItems` list."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Items per page for the embedded `setItems` list."
+              }
+            ]
+          },
+          "docs": "Returns the full contents of a single Rijksstudio set, including the\nowner profile, set metadata, and the ordered list of set items\n(`setItems`) linking back to Collection API objects.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
