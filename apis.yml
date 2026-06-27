@@ -151,7 +151,7 @@ common:
     title: Legacy API Documentation (Archived)
   - type: GitHubOrganization
     url: https://github.com/Rijksmuseum
-  - type: SignUp
+  - type: Signup
     url: https://www.rijksmuseum.nl/en/rijksstudio
     title: Rijksstudio Account For API Key
   - type: Authentication
@@ -216,10 +216,10 @@ common:
   - type: Tools
     url: https://github.com/chandhoke/archival-imagery-mcp
     title: MCP Server (Community — Multi-Museum Imagery, Includes Rijksmuseum)
-  - type: SDK
+  - type: SDKs
     url: https://github.com/hay/rijksmuseumapi
     title: PHP Client (Community)
-  - type: SDK
+  - type: SDKs
     url: https://github.com/yutongquan/rijksmuseum_py
     title: Python Client (Community)
   - type: CodeExamples
