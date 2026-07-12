@@ -142,6 +142,10 @@ apis:
         url: https://github.com/Q42/SimpleOAIHarvester
         title: SimpleOAIHarvester Reference Script
 common:
+  - type: DomainSecurity
+    url: security/rijksmuseum-domain-security.yml
+  - type: Authentication
+    url: authentication/rijksmuseum-authentication.yml
   - type: Website
     url: https://www.rijksmuseum.nl/en
   - type: Documentation

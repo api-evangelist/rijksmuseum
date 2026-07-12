@@ -1,0 +1,20 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/rijksmuseum-collection-openapi.yml, openapi/rijksmuseum-user-sets-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - query
+schemes:
+- name: ApiKeyQuery
+  type: apiKey
+  in: query
+  parameter: key
+  description: |-
+    Free API key issued on creating a Rijksstudio account at
+    https://www.rijksmuseum.nl/en/rijksstudio. The key is available from the
+    account's advanced settings.
+  sources:
+  - openapi/rijksmuseum-collection-openapi.yml
+  - openapi/rijksmuseum-user-sets-openapi.yml
