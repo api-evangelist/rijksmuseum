@@ -142,6 +142,8 @@ apis:
         url: https://github.com/Q42/SimpleOAIHarvester
         title: SimpleOAIHarvester Reference Script
 common:
+  - type: AgenticAccess
+    url: agentic-access/rijksmuseum-agentic-access.yml
   - type: DomainSecurity
     url: security/rijksmuseum-domain-security.yml
   - type: Authentication
