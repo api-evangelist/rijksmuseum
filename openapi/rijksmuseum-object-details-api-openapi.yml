@@ -1,0 +1,567 @@
+openapi: 3.0.3
+info:
+  title: Rijksmuseum Collection Object Details API
+  version: 1.0.0
+  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  termsOfService: https://www.rijksmuseum.nl/en/data/policy
+  contact:
+    name: Rijksmuseum Research Services
+    url: https://www.rijksmuseum.nl/en/research/conduct-research/contact-form
+  license:
+    name: Public Domain (most object images) / CC-BY (modern works) — see Data Policy
+    url: https://www.rijksmuseum.nl/en/data/policy
+  x-generated-from: documentation
+  x-source-url: https://data.rijksmuseum.nl/object-metadata/api/
+  x-last-validated: '2026-05-29'
+  x-api-evangelist-pipeline: opensource
+servers:
+- url: https://www.rijksmuseum.nl/api
+  description: Production
+security:
+- ApiKeyQuery: []
+tags:
+- name: Object Details
+  description: Retrieve the full record for a single object.
+paths:
+  /{culture}/collection/{objectNumber}:
+    get:
+      operationId: getCollectionObject
+      summary: Get Collection Object Details
+      description: 'Returns the full record for a single object identified by its
+
+        case-sensitive `objectNumber` (e.g. `SK-C-5` for *The Night Watch*).
+
+        Object numbers are obtained from the search response.
+
+        '
+      tags:
+      - Object Details
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      parameters:
+      - $ref: '#/components/parameters/Culture'
+      - $ref: '#/components/parameters/ApiKey'
+      - $ref: '#/components/parameters/Format'
+      - name: objectNumber
+        in: path
+        required: true
+        description: Case-sensitive object identifier (e.g. `SK-C-5`).
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9-]+$
+          example: SK-C-5
+      responses:
+        '200':
+          description: Full art-object record for the requested identifier.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionObjectResponse'
+              examples:
+                nightwatch:
+                  $ref: '#/components/examples/GetNightWatch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  parameters:
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+  schemas:
+    ColorWeight:
+      type: object
+      properties:
+        percentage:
+          type: integer
+          example: 81
+        hex:
+          type: string
+          example: '#261808'
+    Label:
+      type: object
+      description: Curatorial label text for display.
+      properties:
+        title:
+          type: string
+        makerLine:
+          type: string
+        description:
+          type: string
+        notes:
+          type: string
+        date:
+          type: string
+          example: '2019-07-05'
+    Dimension:
+      type: object
+      description: Physical dimension entry (height, width, weight, etc.).
+      properties:
+        unit:
+          type: string
+          example: cm
+        type:
+          type: string
+          example: hoogte
+        part:
+          type: string
+          nullable: true
+        value:
+          type: string
+          example: 379,5
+    Acquisition:
+      type: object
+      description: How and when the object entered the Rijksmuseum collection.
+      properties:
+        method:
+          type: string
+          example: bruikleen
+        date:
+          type: string
+          example: '1808-01-01T00:00:00'
+        creditLine:
+          type: string
+          example: Bruikleen van de gemeente Amsterdam
+    Dating:
+      type: object
+      description: Date range and century context for the object's production.
+      properties:
+        presentingDate:
+          type: string
+          example: '1642'
+        sortingDate:
+          type: integer
+          example: 1642
+        period:
+          type: integer
+          description: Century (0–21).
+          example: 17
+        yearEarly:
+          type: integer
+          example: 1642
+        yearLate:
+          type: integer
+          example: 1642
+    Classification:
+      type: object
+      description: Subject classification using Iconclass and related vocabularies.
+      properties:
+        iconClassIdentifier:
+          type: array
+          items:
+            type: string
+          example:
+          - 45(+26)
+        iconClassDescription:
+          type: array
+          items:
+            type: string
+        motifs:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: string
+        objectNumbers:
+          type: array
+          items:
+            type: string
+    Exhibition:
+      type: object
+      description: Past or upcoming exhibition that has featured this object.
+      properties:
+        title:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        location:
+          type: string
+    CollectionObjectResponse:
+      type: object
+      description: Full art-object record returned by the details endpoint.
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          example: 219
+        artObject:
+          $ref: '#/components/schemas/ArtObject'
+    WebImage:
+      type: object
+      description: Reference to a CDN-hosted web image with offset and size metadata.
+      properties:
+        guid:
+          type: string
+          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+        offsetPercentageX:
+          type: integer
+          example: 0
+        offsetPercentageY:
+          type: integer
+          example: 1
+        width:
+          type: integer
+          example: 2500
+        height:
+          type: integer
+          example: 2034
+        url:
+          type: string
+          format: uri
+          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+    Maker:
+      type: object
+      description: A person or entity who contributed to the production of the object.
+      properties:
+        name:
+          type: string
+          example: Rembrandt van Rijn
+        unFixedName:
+          type: string
+          example: Rijn, Rembrandt van
+        placeOfBirth:
+          type: string
+          example: Leiden
+        dateOfBirth:
+          type: string
+          example: '1606-07-15'
+        dateOfBirthPrecision:
+          type: string
+          nullable: true
+        dateOfDeath:
+          type: string
+          example: '1669-10-08'
+        dateOfDeathPrecision:
+          type: string
+          nullable: true
+        placeOfDeath:
+          type: string
+          example: Amsterdam
+        occupation:
+          type: array
+          items:
+            type: string
+          example:
+          - prentmaker
+          - tekenaar
+          - schilder
+        roles:
+          type: array
+          items:
+            type: string
+          example:
+          - schilder
+        nationality:
+          type: string
+          example: Noord-Nederlands
+        biography:
+          type: string
+          nullable: true
+        productionPlaces:
+          type: array
+          items:
+            type: string
+          example:
+          - Amsterdam
+        qualification:
+          type: string
+          nullable: true
+    ArtObjectLinks:
+      type: object
+      description: Hypermedia links for an art object.
+      properties:
+        self:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+        web:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+        search:
+          type: string
+          format: uri
+          description: Present on detail responses; points back to the collection search base.
+          example: http://www.rijksmuseum.nl/api/nl/collection
+    ColorNormalization:
+      type: object
+      properties:
+        originalHex:
+          type: string
+          example: '#261808'
+        normalizedHex:
+          type: string
+          example: '#000000'
+    ArtObject:
+      type: object
+      description: Full Rijksmuseum art-object record.
+      properties:
+        links:
+          $ref: '#/components/schemas/ArtObjectLinks'
+        id:
+          type: string
+          example: nl-SK-C-5
+        priref:
+          type: string
+          example: '5216'
+        objectNumber:
+          type: string
+          example: SK-C-5
+        language:
+          type: string
+          enum:
+          - nl
+          - en
+          example: nl
+        title:
+          type: string
+          example: De Nachtwacht
+        copyrightHolder:
+          type: string
+          nullable: true
+        webImage:
+          $ref: '#/components/schemas/WebImage'
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorWeight'
+        colorsWithNormalization:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorNormalization'
+        normalizedColors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorWeight'
+        normalized32Colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColorWeight'
+        titles:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+          description: Long-form curatorial description (in the requested culture).
+        labelText:
+          type: string
+          nullable: true
+        objectTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - schilderij
+        objectCollection:
+          type: array
+          items:
+            type: string
+          example:
+          - schilderijen
+        makers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Maker'
+        principalMakers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Maker'
+        plaqueDescriptionDutch:
+          type: string
+        plaqueDescriptionEnglish:
+          type: string
+        principalMaker:
+          type: string
+          example: Rembrandt van Rijn
+        artistRole:
+          type: string
+          nullable: true
+        associations:
+          type: array
+          items:
+            type: object
+        acquisition:
+          $ref: '#/components/schemas/Acquisition'
+        exhibitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exhibition'
+        materials:
+          type: array
+          items:
+            type: string
+          example:
+          - doek
+          - olieverf
+        techniques:
+          type: array
+          items:
+            type: string
+        productionPlaces:
+          type: array
+          items:
+            type: string
+          example:
+          - Amsterdam
+        dating:
+          $ref: '#/components/schemas/Dating'
+        classification:
+          $ref: '#/components/schemas/Classification'
+        hasImage:
+          type: boolean
+          example: true
+        historicalPersons:
+          type: array
+          items:
+            type: string
+        inscriptions:
+          type: array
+          items:
+            type: string
+        documentation:
+          type: array
+          items:
+            type: string
+        catRefRPK:
+          type: array
+          items:
+            type: string
+        principalOrFirstMaker:
+          type: string
+        dimensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dimension'
+        physicalProperties:
+          type: array
+          items:
+            type: string
+        physicalMedium:
+          type: string
+          example: olieverf op doek
+        longTitle:
+          type: string
+        subTitle:
+          type: string
+          example: h 379,5cm × b 453,5cm × g 337kg
+        scLabelLine:
+          type: string
+        label:
+          $ref: '#/components/schemas/Label'
+        showImage:
+          type: boolean
+        location:
+          type: string
+          description: Current location code within the museum.
+          example: HG-2.31
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+  responses:
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested object number could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  examples:
+    GetNightWatch:
+      summary: Get *The Night Watch* (SK-C-5) details
+      value:
+        elapsedMilliseconds: 219
+        artObject:
+          id: nl-SK-C-5
+          priref: '5216'
+          objectNumber: SK-C-5
+          language: nl
+          title: De Nachtwacht
+          principalMaker: Rembrandt van Rijn
+          principalOrFirstMaker: Rembrandt van Rijn
+          objectTypes:
+          - schilderij
+          materials:
+          - doek
+          - olieverf
+          productionPlaces:
+          - Amsterdam
+          dating:
+            presentingDate: '1642'
+            sortingDate: 1642
+            period: 17
+            yearEarly: 1642
+            yearLate: 1642
+          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
+          physicalMedium: olieverf op doek
+          subTitle: h 379,5cm × b 453,5cm × g 337kg
+          hasImage: true
+          showImage: true
+          location: HG-2.31
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: key
+      description: 'Free API key issued on creating a Rijksstudio account at
+
+        https://www.rijksmuseum.nl/en/rijksstudio. The key is available from the
+
+        account''s advanced settings.
+
+        '

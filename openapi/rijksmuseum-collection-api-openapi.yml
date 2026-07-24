@@ -1,0 +1,371 @@
+openapi: 3.0.3
+info:
+  title: Rijksmuseum Collection API
+  version: 1.0.0
+  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  termsOfService: https://www.rijksmuseum.nl/en/data/policy
+  contact:
+    name: Rijksmuseum Research Services
+    url: https://www.rijksmuseum.nl/en/research/conduct-research/contact-form
+  license:
+    name: Public Domain (most object images) / CC-BY (modern works) — see Data Policy
+    url: https://www.rijksmuseum.nl/en/data/policy
+  x-generated-from: documentation
+  x-source-url: https://data.rijksmuseum.nl/object-metadata/api/
+  x-last-validated: '2026-05-29'
+  x-api-evangelist-pipeline: opensource
+servers:
+- url: https://www.rijksmuseum.nl/api
+  description: Production
+security:
+- ApiKeyQuery: []
+tags:
+- name: Collection
+  description: Search and browse the Rijksmuseum collection.
+paths:
+  /{culture}/collection:
+    get:
+      operationId: searchCollection
+      summary: Search The Rijksmuseum Collection
+      description: 'Returns a paginated list of objects in the Rijksmuseum collection. All
+
+        filter parameters mirror the museum''s advanced search experience.
+
+        Pagination is capped so that `p * ps` cannot exceed 10,000 results — use
+
+        the [OAI-PMH harvesting API](https://data.rijksmuseum.nl/object-metadata/harvest/)
+
+        for full-corpus access.
+
+        '
+      tags:
+      - Collection
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      parameters:
+      - $ref: '#/components/parameters/Culture'
+      - $ref: '#/components/parameters/ApiKey'
+      - $ref: '#/components/parameters/Format'
+      - name: p
+        in: query
+        description: Result page number (0-based). `p * ps` cannot exceed 10,000.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          example: 0
+      - name: ps
+        in: query
+        description: Number of results per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+          example: 10
+      - name: q
+        in: query
+        description: Free-text search terms applied across object fields.
+        required: false
+        schema:
+          type: string
+          example: nachtwacht
+      - name: involvedMaker
+        in: query
+        description: Restrict to objects produced by this maker (e.g. `Rembrandt van Rijn`).
+        required: false
+        schema:
+          type: string
+          example: Rembrandt van Rijn
+      - name: type
+        in: query
+        description: Object type (e.g. `schilderij`, `prent`).
+        required: false
+        schema:
+          type: string
+          example: schilderij
+      - name: material
+        in: query
+        description: Material used to make the object (e.g. `doek`, `papier`).
+        required: false
+        schema:
+          type: string
+          example: doek
+      - name: technique
+        in: query
+        description: Technique used to produce the object (e.g. `olieverf`, `ets`).
+        required: false
+        schema:
+          type: string
+          example: olieverf
+      - name: f.dating.period
+        in: query
+        description: Century in which the object was made (0–21).
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 21
+          example: 17
+      - name: f.normalized32Colors.hex
+        in: query
+        description: 'Filter on the dominant colour palette (32-colour normalised). The
+
+          literal `#` must be URL-encoded as `%23`.
+
+          '
+        required: false
+        schema:
+          type: string
+          pattern: ^#?[0-9A-Fa-f]{6}$
+          example: '#000000'
+      - name: imgonly
+        in: query
+        description: Only return objects that have an image.
+        required: false
+        schema:
+          type: boolean
+          default: false
+          example: true
+      - name: toppieces
+        in: query
+        description: Only return objects flagged as top pieces.
+        required: false
+        schema:
+          type: boolean
+          default: false
+          example: false
+      - name: s
+        in: query
+        description: Sort order applied to the result set.
+        required: false
+        schema:
+          type: string
+          enum:
+          - relevance
+          - objecttype
+          - chronologic
+          - achronologic
+          - artist
+          - artistdesc
+          example: chronologic
+      responses:
+        '200':
+          description: A paginated page of art-object summaries matching the filters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionSearchResponse'
+              examples:
+                rembrandt:
+                  $ref: '#/components/examples/SearchRembrandtVanRijn'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  examples:
+    SearchRembrandtVanRijn:
+      summary: Search by maker — Rembrandt van Rijn
+      value:
+        elapsedMilliseconds: 0
+        count: 3491
+        artObjects:
+        - links:
+            self: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+            web: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+          id: nl-SK-C-5
+          objectNumber: SK-C-5
+          title: De Nachtwacht
+          hasImage: true
+          principalOrFirstMaker: Rembrandt van Rijn
+          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
+          showImage: true
+          permitDownload: true
+          webImage:
+            guid: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+            offsetPercentageX: 0
+            offsetPercentageY: 1
+            width: 2500
+            height: 2034
+            url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+          productionPlaces:
+          - Amsterdam
+  schemas:
+    ArtObjectLinks:
+      type: object
+      description: Hypermedia links for an art object.
+      properties:
+        self:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+        web:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+        search:
+          type: string
+          format: uri
+          description: Present on detail responses; points back to the collection search base.
+          example: http://www.rijksmuseum.nl/api/nl/collection
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    WebImage:
+      type: object
+      description: Reference to a CDN-hosted web image with offset and size metadata.
+      properties:
+        guid:
+          type: string
+          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+        offsetPercentageX:
+          type: integer
+          example: 0
+        offsetPercentageY:
+          type: integer
+          example: 1
+        width:
+          type: integer
+          example: 2500
+        height:
+          type: integer
+          example: 2034
+        url:
+          type: string
+          format: uri
+          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+    ArtObjectSummary:
+      type: object
+      description: Lightweight art-object record returned by the search endpoint.
+      properties:
+        links:
+          $ref: '#/components/schemas/ArtObjectLinks'
+        id:
+          type: string
+          description: Globally unique identifier including culture prefix.
+          example: nl-SK-C-5
+        objectNumber:
+          type: string
+          description: Rijksmuseum inventory number.
+          example: SK-C-5
+        title:
+          type: string
+          description: Short title in the requested culture.
+          example: De Nachtwacht
+        hasImage:
+          type: boolean
+          example: true
+        principalOrFirstMaker:
+          type: string
+          description: Display name of the principal or first maker.
+          example: Rembrandt van Rijn
+        longTitle:
+          type: string
+          description: Long form title including maker and date.
+          example: De Nachtwacht, Rembrandt van Rijn, 1642
+        showImage:
+          type: boolean
+          example: true
+        permitDownload:
+          type: boolean
+          example: true
+        webImage:
+          $ref: '#/components/schemas/WebImage'
+        headerImage:
+          $ref: '#/components/schemas/WebImage'
+        productionPlaces:
+          type: array
+          items:
+            type: string
+          example:
+          - Amsterdam
+    CollectionSearchResponse:
+      type: object
+      description: A page of summary art-object records.
+      required:
+      - count
+      - artObjects
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          description: Server-side query time in milliseconds.
+          example: 0
+        count:
+          type: integer
+          description: Total number of objects matching the query (across all pages).
+          example: 3491
+        artObjects:
+          type: array
+          description: The art-object summaries for this page.
+          items:
+            $ref: '#/components/schemas/ArtObjectSummary'
+  parameters:
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+  responses:
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: key
+      description: 'Free API key issued on creating a Rijksstudio account at
+
+        https://www.rijksmuseum.nl/en/rijksstudio. The key is available from the
+
+        account''s advanced settings.
+
+        '

@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: Rijksmuseum Collection Images API
+  version: 1.0.0
+  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  termsOfService: https://www.rijksmuseum.nl/en/data/policy
+  contact:
+    name: Rijksmuseum Research Services
+    url: https://www.rijksmuseum.nl/en/research/conduct-research/contact-form
+  license:
+    name: Public Domain (most object images) / CC-BY (modern works) — see Data Policy
+    url: https://www.rijksmuseum.nl/en/data/policy
+  x-generated-from: documentation
+  x-source-url: https://data.rijksmuseum.nl/object-metadata/api/
+  x-last-validated: '2026-05-29'
+  x-api-evangelist-pipeline: opensource
+servers:
+- url: https://www.rijksmuseum.nl/api
+  description: Production
+security:
+- ApiKeyQuery: []
+tags:
+- name: Images
+  description: Deep-zoom tile pyramids for object web images.
+paths:
+  /{culture}/collection/{objectNumber}/tiles:
+    get:
+      operationId: getCollectionObjectTiles
+      summary: Get Collection Object Image Tiles
+      description: 'Returns the tile-pyramid description for an object''s web image. The
+
+        response contains one entry per zoom level (`z0`–`z6`, where `z0` is
+
+        the largest resolution and `z6` is the smallest), and each level
+
+        carries a list of image tiles with x/y coordinates and a CDN URL.
+
+
+        This endpoint only supports the JSON response format.
+
+        '
+      tags:
+      - Images
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+      parameters:
+      - $ref: '#/components/parameters/Culture'
+      - $ref: '#/components/parameters/ApiKey'
+      - name: objectNumber
+        in: path
+        required: true
+        description: Case-sensitive object identifier (e.g. `SK-C-5`).
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9-]+$
+          example: SK-C-5
+      responses:
+        '200':
+          description: Tile pyramid for the requested object's web image.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageTilesResponse'
+              examples:
+                nightwatchTiles:
+                  $ref: '#/components/examples/GetNightWatchTiles'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    ImageTilesResponse:
+      type: object
+      description: Tile pyramid description for an object's web image.
+      properties:
+        levels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTileLevel'
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    ImageTileLevel:
+      type: object
+      description: One zoom level of the tile pyramid.
+      properties:
+        name:
+          type: string
+          description: Level name. `z0` is largest; `z6` is smallest.
+          example: z3
+        width:
+          type: integer
+          example: 1771
+        height:
+          type: integer
+          example: 1441
+        tiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTile'
+    ImageTile:
+      type: object
+      description: A single tile in the pyramid.
+      properties:
+        x:
+          type: integer
+          example: 2
+        y:
+          type: integer
+          example: 2
+        url:
+          type: string
+          format: uri
+  responses:
+    NotFound:
+      description: The requested object number could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+  examples:
+    GetNightWatchTiles:
+      summary: Tile pyramid for *The Night Watch*
+      value:
+        levels:
+        - name: z3
+          width: 1771
+          height: 1441
+          tiles:
+          - x: 2
+            y: 2
+            url: http://lh3.googleusercontent.com/-I1HN0VxmDySYN5oCqaykuTRukdFh-JemILAmTvHtGsGnBm968CiQpxkfgqQZnbKD5bS1m0tGZYx7v8HFnWjE3kizw=s0
+        - name: z4
+          width: 885
+          height: 720
+          tiles:
+          - x: 1
+            y: 0
+            url: http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0
+  securitySchemes:
+    ApiKeyQuery:
+      type: apiKey
+      in: query
+      name: key
+      description: 'Free API key issued on creating a Rijksstudio account at
+
+        https://www.rijksmuseum.nl/en/rijksstudio. The key is available from the
+
+        account''s advanced settings.
+
+        '
