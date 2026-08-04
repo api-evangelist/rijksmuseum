@@ -1,0 +1,20 @@
+{
+  "provider": "rijksmuseum",
+  "sources": [
+    "rijksmuseum-collection-api-openapi.yml",
+    "rijksmuseum-images-api-openapi.yml",
+    "rijksmuseum-object-details-api-openapi.yml",
+    "rijksmuseum-user-generated-content-api-openapi.yml"
+  ],
+  "outputs": [
+    "rijksmuseum-collection-api-openapi.yml",
+    "rijksmuseum-images-api-openapi.yml",
+    "rijksmuseum-object-details-api-openapi.yml",
+    "rijksmuseum-user-generated-content-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
