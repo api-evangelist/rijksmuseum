@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Rijksmuseum Collection Object Details API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Object Details",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Collection Object Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.rijksmuseum.nl/api/:culture/collection/:objectNumber",
+            "params": [
+              {
+                "name": "culture",
+                "value": "",
+                "type": "path",
+                "description": "Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "The caller's Rijksstudio API key."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered."
+              },
+              {
+                "name": "objectNumber",
+                "value": "",
+                "type": "path",
+                "description": "Case-sensitive object identifier (e.g. `SK-C-5`)."
+              }
+            ]
+          },
+          "docs": "Returns the full record for a single object identified by its\ncase-sensitive `objectNumber` (e.g. `SK-C-5` for *The Night Watch*).\nObject numbers are obtained from the search response.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Rijksmuseum Collection Images API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "key",
+      "value": "{{key}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Images",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Collection Object Image Tiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.rijksmuseum.nl/api/:culture/collection/:objectNumber/tiles",
+            "params": [
+              {
+                "name": "culture",
+                "value": "",
+                "type": "path",
+                "description": "Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "The caller's Rijksstudio API key."
+              },
+              {
+                "name": "objectNumber",
+                "value": "",
+                "type": "path",
+                "description": "Case-sensitive object identifier (e.g. `SK-C-5`)."
+              }
+            ]
+          },
+          "docs": "Returns the tile-pyramid description for an object's web image. The\nresponse contains one entry per zoom level (`z0`–`z6`, where `z0` is\nthe largest resolution and `z6` is the smallest), and each level\ncarries a list of image tiles with x/y coordinates and a CDN URL.\n\nThis endpoint only supports the JSON response format.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

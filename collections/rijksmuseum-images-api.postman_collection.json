@@ -1,0 +1,357 @@
+{
+  "item": [
+    {
+      "id": "04ba64a7-bfd9-4a64-b1a2-fb34d6da112e",
+      "name": "Images",
+      "description": {
+        "content": "Deep-zoom tile pyramids for object web images.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "79a4773b-fefe-449a-90ad-3f206e2fb8cb",
+          "name": "Get Collection Object Image Tiles",
+          "request": {
+            "name": "Get Collection Object Image Tiles",
+            "description": {
+              "content": "Returns the tile-pyramid description for an object's web image. The\nresponse contains one entry per zoom level (`z0`–`z6`, where `z0` is\nthe largest resolution and `z6` is the smallest), and each level\ncarries a list of image tiles with x/y coordinates and a CDN URL.\n\nThis endpoint only supports the JSON response format.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":culture",
+                "collection",
+                ":objectNumber",
+                "tiles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "key",
+                  "value": "<string>",
+                  "description": "(Required) The caller's Rijksstudio API key."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "culture",
+                  "description": "(Required) Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "objectNumber",
+                  "description": "(Required) Case-sensitive object identifier (e.g. `SK-C-5`)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f35e1d78-fbdd-4556-a961-cd9e40a6ed0b",
+              "name": "Tile pyramid for the requested object's web image.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":culture",
+                    "collection",
+                    ":objectNumber",
+                    "tiles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key",
+                      "value": "0fiuZxBwf"
+                    },
+                    {
+                      "key": "key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "culture",
+                      "description": "(Required) Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectNumber",
+                      "description": "(Required) Case-sensitive object identifier (e.g. `SK-C-5`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"levels\": [\n    {\n      \"name\": \"z3\",\n      \"width\": 1771,\n      \"height\": 1441,\n      \"tiles\": [\n        {\n          \"x\": 2,\n          \"y\": 2,\n          \"url\": \"http://lh3.googleusercontent.com/-I1HN0VxmDySYN5oCqaykuTRukdFh-JemILAmTvHtGsGnBm968CiQpxkfgqQZnbKD5bS1m0tGZYx7v8HFnWjE3kizw=s0\"\n        }\n      ]\n    },\n    {\n      \"name\": \"z4\",\n      \"width\": 885,\n      \"height\": 720,\n      \"tiles\": [\n        {\n          \"x\": 1,\n          \"y\": 0,\n          \"url\": \"http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "670c26a4-ce66-4a45-8856-3ab56ffc9c2f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":culture",
+                    "collection",
+                    ":objectNumber",
+                    "tiles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key",
+                      "value": "0fiuZxBwf"
+                    },
+                    {
+                      "key": "key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "culture",
+                      "description": "(Required) Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectNumber",
+                      "description": "(Required) Case-sensitive object identifier (e.g. `SK-C-5`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "352d53f4-a49a-4c10-9aba-d5f83d68ec84",
+              "name": "The requested object number could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":culture",
+                    "collection",
+                    ":objectNumber",
+                    "tiles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key",
+                      "value": "0fiuZxBwf"
+                    },
+                    {
+                      "key": "key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "culture",
+                      "description": "(Required) Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectNumber",
+                      "description": "(Required) Case-sensitive object identifier (e.g. `SK-C-5`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f9c6042-47b2-469b-90b8-eef352480dbb",
+              "name": "Daily quota or short-window rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":culture",
+                    "collection",
+                    ":objectNumber",
+                    "tiles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "key",
+                      "value": "0fiuZxBwf"
+                    },
+                    {
+                      "key": "key",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "culture",
+                      "description": "(Required) Locale for both the query semantics and the response content (`nl` Dutch, `en` English)."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "objectNumber",
+                      "description": "(Required) Case-sensitive object identifier (e.g. `SK-C-5`)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"message\": \"Invalid API key.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.rijksmuseum.nl/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d7e0a637-db64-451b-a915-7fbd6332def3",
+    "name": "Rijksmuseum Collection Images API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n\n\nContact Support:\n Name: Rijksmuseum Research Services",
+      "type": "text/plain"
+    }
+  }
+}
