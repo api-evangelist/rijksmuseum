@@ -93,6 +93,8 @@ apis:
   humanURL: https://data.rijksmuseum.nl/object-metadata/api/
   baseURL: https://www.rijksmuseum.nl/api
   tags:
+  - Image
+  tags_raw:
   - Images
   properties:
   - type: OpenAPI
