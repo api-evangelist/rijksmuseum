@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Rijksmuseum Collection Images API
   version: 1.0.0
@@ -72,6 +72,27 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  parameters:
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
   schemas:
     ImageTilesResponse:
       type: object
@@ -81,16 +102,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTileLevel'
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
     ImageTileLevel:
       type: object
       description: One zoom level of the tile pyramid.
@@ -109,6 +120,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTile'
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
     ImageTile:
       type: object
       description: A single tile in the pyramid.
@@ -123,12 +144,6 @@ components:
           type: string
           format: uri
   responses:
-    NotFound:
-      description: The requested object number could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Daily quota or short-window rate limit exceeded.
       content:
@@ -141,27 +156,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
+    NotFound:
+      description: The requested object number could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   examples:
     GetNightWatchTiles:
       summary: Tile pyramid for *The Night Watch*

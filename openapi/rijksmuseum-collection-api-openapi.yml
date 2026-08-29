@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Rijksmuseum Collection API
   version: 1.0.0
@@ -167,61 +167,27 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  examples:
-    SearchRembrandtVanRijn:
-      summary: Search by maker — Rembrandt van Rijn
-      value:
-        elapsedMilliseconds: 0
-        count: 3491
-        artObjects:
-        - links:
-            self: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
-            web: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
-          id: nl-SK-C-5
-          objectNumber: SK-C-5
-          title: De Nachtwacht
-          hasImage: true
-          principalOrFirstMaker: Rembrandt van Rijn
-          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
-          showImage: true
-          permitDownload: true
-          webImage:
-            guid: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
-            offsetPercentageX: 0
-            offsetPercentageY: 1
-            width: 2500
-            height: 2034
-            url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-          productionPlaces:
-          - Amsterdam
   schemas:
-    ArtObjectLinks:
+    CollectionSearchResponse:
       type: object
-      description: Hypermedia links for an art object.
+      description: A page of summary art-object records.
+      required:
+      - count
+      - artObjects
       properties:
-        self:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
-        web:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
-        search:
-          type: string
-          format: uri
-          description: Present on detail responses; points back to the collection search base.
-          example: http://www.rijksmuseum.nl/api/nl/collection
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
+        elapsedMilliseconds:
           type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
+          description: Server-side query time in milliseconds.
+          example: 0
+        count:
+          type: integer
+          description: Total number of objects matching the query (across all pages).
+          example: 3491
+        artObjects:
+          type: array
+          description: The art-object summaries for this page.
+          items:
+            $ref: '#/components/schemas/ArtObjectSummary'
     WebImage:
       type: object
       description: Reference to a CDN-hosted web image with offset and size metadata.
@@ -290,26 +256,33 @@ components:
             type: string
           example:
           - Amsterdam
-    CollectionSearchResponse:
+    ArtObjectLinks:
       type: object
-      description: A page of summary art-object records.
-      required:
-      - count
-      - artObjects
+      description: Hypermedia links for an art object.
       properties:
-        elapsedMilliseconds:
+        self:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+        web:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+        search:
+          type: string
+          format: uri
+          description: Present on detail responses; points back to the collection search base.
+          example: http://www.rijksmuseum.nl/api/nl/collection
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
           type: integer
-          description: Server-side query time in milliseconds.
-          example: 0
-        count:
-          type: integer
-          description: Total number of objects matching the query (across all pages).
-          example: 3491
-        artObjects:
-          type: array
-          description: The art-object summaries for this page.
-          items:
-            $ref: '#/components/schemas/ArtObjectSummary'
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
   parameters:
     Format:
       name: format
@@ -324,6 +297,15 @@ components:
         - xml
         default: json
         example: json
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
     Culture:
       name: culture
       in: path
@@ -335,15 +317,6 @@ components:
         - nl
         - en
         example: en
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
   responses:
     RateLimited:
       description: Daily quota or short-window rate limit exceeded.
@@ -357,6 +330,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  examples:
+    SearchRembrandtVanRijn:
+      summary: Search by maker — Rembrandt van Rijn
+      value:
+        elapsedMilliseconds: 0
+        count: 3491
+        artObjects:
+        - links:
+            self: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+            web: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+          id: nl-SK-C-5
+          objectNumber: SK-C-5
+          title: De Nachtwacht
+          hasImage: true
+          principalOrFirstMaker: Rembrandt van Rijn
+          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
+          showImage: true
+          permitDownload: true
+          webImage:
+            guid: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+            offsetPercentageX: 0
+            offsetPercentageY: 1
+            width: 2500
+            height: 2034
+            url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+          productionPlaces:
+          - Amsterdam
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

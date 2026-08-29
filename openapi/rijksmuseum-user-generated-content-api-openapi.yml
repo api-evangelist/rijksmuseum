@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Rijksmuseum Collection User Generated Content API
   version: 1.0.0
@@ -141,6 +141,40 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  parameters:
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. JSON is the default.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
   schemas:
     UserSetItem:
       type: object
@@ -183,73 +217,6 @@ components:
           example: 0
         image:
           $ref: '#/components/schemas/UserSetItemImage'
-    UserSetResponse:
-      type: object
-      description: Single Rijksstudio user set with its items.
-      properties:
-        elapsedMilliseconds:
-          type: integer
-          example: 505
-        userSet:
-          $ref: '#/components/schemas/UserSet'
-    UserSetItemLinks:
-      type: object
-      properties:
-        artobject:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/nl/collection/SK-A-3148
-        web:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/nl/collection/SK-A-3148
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
-    UserSetLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/usersets/123-setname-3
-        overview:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/usersets
-        web:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
-    RijksstudioUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 321
-        name:
-          type: string
-          example: John
-        lang:
-          type: string
-          example: nl
-        avatarUrl:
-          type: string
-          format: uri
-          nullable: true
-        headerUrl:
-          type: string
-          format: uri
-          nullable: true
-        initials:
-          type: string
-          example: J
     UserSetSummary:
       type: object
       description: Lightweight summary of a Rijksstudio user set.
@@ -272,8 +239,9 @@ components:
           type: string
           example: setname-3
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         user:
           $ref: '#/components/schemas/RijksstudioUser'
         createdOn:
@@ -284,6 +252,66 @@ components:
           type: string
           format: date-time
           example: '2013-04-10T10:50:21.7559145Z'
+    UserSet:
+      allOf:
+      - $ref: '#/components/schemas/UserSetSummary'
+      - type: object
+        properties:
+          setItems:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserSetItem'
+    RijksstudioUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 321
+        name:
+          type: string
+          example: John
+        lang:
+          type: string
+          example: nl
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        headerUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        initials:
+          type: string
+          example: J
+    UserSetItemLinks:
+      type: object
+      properties:
+        artobject:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/nl/collection/SK-A-3148
+        web:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/nl/collection/SK-A-3148
+    UserSetListResponse:
+      type: object
+      description: A paginated page of Rijksstudio user-set summaries.
+      properties:
+        count:
+          type: integer
+          description: Total number of user sets across all pages.
+          example: 97957
+        elapsedMilliseconds:
+          type: integer
+          example: 631
+        userSets:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSetSummary'
     UserSetItemImage:
       type: object
       properties:
@@ -312,37 +340,40 @@ components:
         offsetPercentageY:
           type: integer
           example: 36
-    UserSet:
-      allOf:
-      - $ref: '#/components/schemas/UserSetSummary'
-      - type: object
-        properties:
-          setItems:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserSetItem'
-    UserSetListResponse:
+    UserSetResponse:
       type: object
-      description: A paginated page of Rijksstudio user-set summaries.
+      description: Single Rijksstudio user set with its items.
       properties:
-        count:
-          type: integer
-          description: Total number of user sets across all pages.
-          example: 97957
         elapsedMilliseconds:
           type: integer
-          example: 631
-        userSets:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSetSummary'
+          example: 505
+        userSet:
+          $ref: '#/components/schemas/UserSet'
+    UserSetLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/usersets/123-setname-3
+        overview:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/usersets
+        web:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
   responses:
-    NotFound:
-      description: The requested set could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Daily quota or short-window rate limit exceeded.
       content:
@@ -355,40 +386,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    Format:
-      name: format
-      in: query
-      required: false
-      description: Response format. JSON is the default.
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonp
-        - xml
-        default: json
-        example: json
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
+    NotFound:
+      description: The requested set could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   examples:
     GetMeesterMatches:
       summary: Get the "meestermatches" user set
