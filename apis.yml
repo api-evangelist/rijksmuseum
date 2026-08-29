@@ -6,6 +6,18 @@ description: >-
   320,000 bibliographic records, 160,000 actor / institution records, and 70,000 controlled-vocabulary terms through a
   family of JSON-based REST APIs, an OAI-PMH harvesting endpoint, IIIF tile services, and linked-data dumps.
 url: https://data.rijksmuseum.nl/
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
