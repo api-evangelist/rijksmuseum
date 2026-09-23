@@ -2,7 +2,11 @@ openapi: 3.2.0
 info:
   title: Rijksmuseum Collection Object Details API
   version: 1.0.0
-  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  description: 'The Rijksmuseum Collection API exposes the Dutch national museum''s collection
+
+    of more than 800,000 object records (with public-domain web images for over
+
+    600,000 of them) through a JSON / JSON-P / XML REST interface.'
   termsOfService: https://www.rijksmuseum.nl/en/data/policy
   contact:
     name: Rijksmuseum Research Services
@@ -31,9 +35,7 @@ paths:
 
         case-sensitive `objectNumber` (e.g. `SK-C-5` for *The Night Watch*).
 
-        Object numbers are obtained from the search response.
-
-        '
+        Object numbers are obtained from the search response.'
       tags:
       - Object Details
       x-microcks-operation:
@@ -69,100 +71,55 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Maker:
+    Classification:
       type: object
-      description: A person or entity who contributed to the production of the object.
+      description: Subject classification using Iconclass and related vocabularies.
       properties:
-        name:
-          type: string
-          example: Rembrandt van Rijn
-        unFixedName:
-          type: string
-          example: Rijn, Rembrandt van
-        placeOfBirth:
-          type: string
-          example: Leiden
-        dateOfBirth:
-          type: string
-          example: '1606-07-15'
-        dateOfBirthPrecision:
-          type:
-          - string
-          - 'null'
-        dateOfDeath:
-          type: string
-          example: '1669-10-08'
-        dateOfDeathPrecision:
-          type:
-          - string
-          - 'null'
-        placeOfDeath:
-          type: string
-          example: Amsterdam
-        occupation:
+        iconClassIdentifier:
           type: array
           items:
             type: string
           example:
-          - prentmaker
-          - tekenaar
-          - schilder
-        roles:
+          - 45(+26)
+        iconClassDescription:
           type: array
           items:
             type: string
-          example:
-          - schilder
-        nationality:
-          type: string
-          example: Noord-Nederlands
-        biography:
-          type:
-          - string
-          - 'null'
-        productionPlaces:
+        motifs:
           type: array
           items:
             type: string
-          example:
-          - Amsterdam
-        qualification:
-          type:
-          - string
-          - 'null'
-    ColorWeight:
+        events:
+          type: array
+          items:
+            type: string
+        objectNumbers:
+          type: array
+          items:
+            type: string
+    Error:
       type: object
+      description: Standard error payload (shape inferred from API responses).
       properties:
-        percentage:
+        statusCode:
           type: integer
-          example: 81
-        hex:
+          example: 401
+        message:
           type: string
-          example: '#261808'
-    CollectionObjectResponse:
+          example: Invalid API key.
+    Acquisition:
       type: object
-      description: Full art-object record returned by the details endpoint.
+      description: How and when the object entered the Rijksmuseum collection.
       properties:
-        elapsedMilliseconds:
-          type: integer
-          example: 219
-        artObject:
-          $ref: '#/components/schemas/ArtObject'
-    Label:
-      type: object
-      description: Curatorial label text for display.
-      properties:
-        title:
+        method:
           type: string
-        makerLine:
-          type: string
-        description:
-          type: string
-        notes:
-          type: string
+          example: bruikleen
         date:
           type: string
-          example: '2019-07-05'
+          example: '1808-01-01T00:00:00'
+        creditLine:
+          type: string
+          example: Bruikleen van de gemeente Amsterdam
     Dimension:
       type: object
       description: Physical dimension entry (height, width, weight, etc.).
@@ -180,6 +137,18 @@ components:
         value:
           type: string
           example: 379,5
+    Exhibition:
+      type: object
+      description: Past or upcoming exhibition that has featured this object.
+      properties:
+        title:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        location:
+          type: string
     ArtObject:
       type: object
       description: Full Rijksmuseum art-object record.
@@ -346,16 +315,6 @@ components:
           type: string
           description: Current location code within the museum.
           example: HG-2.31
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
     WebImage:
       type: object
       description: Reference to a CDN-hosted web image with offset and size metadata.
@@ -379,27 +338,6 @@ components:
           type: string
           format: uri
           example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-    Exhibition:
-      type: object
-      description: Past or upcoming exhibition that has featured this object.
-      properties:
-        title:
-          type: string
-        startDate:
-          type: string
-        endDate:
-          type: string
-        location:
-          type: string
-    ColorNormalization:
-      type: object
-      properties:
-        originalHex:
-          type: string
-          example: '#261808'
-        normalizedHex:
-          type: string
-          example: '#000000'
     Dating:
       type: object
       description: Date range and century context for the object's production.
@@ -420,45 +358,6 @@ components:
         yearLate:
           type: integer
           example: 1642
-    Acquisition:
-      type: object
-      description: How and when the object entered the Rijksmuseum collection.
-      properties:
-        method:
-          type: string
-          example: bruikleen
-        date:
-          type: string
-          example: '1808-01-01T00:00:00'
-        creditLine:
-          type: string
-          example: Bruikleen van de gemeente Amsterdam
-    Classification:
-      type: object
-      description: Subject classification using Iconclass and related vocabularies.
-      properties:
-        iconClassIdentifier:
-          type: array
-          items:
-            type: string
-          example:
-          - 45(+26)
-        iconClassDescription:
-          type: array
-          items:
-            type: string
-        motifs:
-          type: array
-          items:
-            type: string
-        events:
-          type: array
-          items:
-            type: string
-        objectNumbers:
-          type: array
-          items:
-            type: string
     ArtObjectLinks:
       type: object
       description: Hypermedia links for an art object.
@@ -476,20 +375,129 @@ components:
           format: uri
           description: Present on detail responses; points back to the collection search base.
           example: http://www.rijksmuseum.nl/api/nl/collection
+    Label:
+      type: object
+      description: Curatorial label text for display.
+      properties:
+        title:
+          type: string
+        makerLine:
+          type: string
+        description:
+          type: string
+        notes:
+          type: string
+        date:
+          type: string
+          example: '2019-07-05'
+    ColorWeight:
+      type: object
+      properties:
+        percentage:
+          type: integer
+          example: 81
+        hex:
+          type: string
+          example: '#261808'
+    Maker:
+      type: object
+      description: A person or entity who contributed to the production of the object.
+      properties:
+        name:
+          type: string
+          example: Rembrandt van Rijn
+        unFixedName:
+          type: string
+          example: Rijn, Rembrandt van
+        placeOfBirth:
+          type: string
+          example: Leiden
+        dateOfBirth:
+          type: string
+          example: '1606-07-15'
+        dateOfBirthPrecision:
+          type:
+          - string
+          - 'null'
+        dateOfDeath:
+          type: string
+          example: '1669-10-08'
+        dateOfDeathPrecision:
+          type:
+          - string
+          - 'null'
+        placeOfDeath:
+          type: string
+          example: Amsterdam
+        occupation:
+          type: array
+          items:
+            type: string
+          example:
+          - prentmaker
+          - tekenaar
+          - schilder
+        roles:
+          type: array
+          items:
+            type: string
+          example:
+          - schilder
+        nationality:
+          type: string
+          example: Noord-Nederlands
+        biography:
+          type:
+          - string
+          - 'null'
+        productionPlaces:
+          type: array
+          items:
+            type: string
+          example:
+          - Amsterdam
+        qualification:
+          type:
+          - string
+          - 'null'
+    CollectionObjectResponse:
+      type: object
+      description: Full art-object record returned by the details endpoint.
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          example: 219
+        artObject:
+          $ref: '#/components/schemas/ArtObject'
+    ColorNormalization:
+      type: object
+      properties:
+        originalHex:
+          type: string
+          example: '#261808'
+        normalizedHex:
+          type: string
+          example: '#000000'
+  responses:
+    NotFound:
+      description: The requested object number could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    Format:
-      name: format
-      in: query
-      required: false
-      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonp
-        - xml
-        default: json
-        example: json
     ApiKey:
       name: key
       in: query
@@ -510,25 +518,19 @@ components:
         - nl
         - en
         example: en
-  responses:
-    NotFound:
-      description: The requested object number could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
   examples:
     GetNightWatch:
       summary: Get *The Night Watch* (SK-C-5) details

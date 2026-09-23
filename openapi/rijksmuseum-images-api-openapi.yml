@@ -2,7 +2,11 @@ openapi: 3.2.0
 info:
   title: Rijksmuseum Collection Images API
   version: 1.0.0
-  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  description: 'The Rijksmuseum Collection API exposes the Dutch national museum''s collection
+
+    of more than 800,000 object records (with public-domain web images for over
+
+    600,000 of them) through a JSON / JSON-P / XML REST interface.'
   termsOfService: https://www.rijksmuseum.nl/en/data/policy
   contact:
     name: Rijksmuseum Research Services
@@ -36,9 +40,7 @@ paths:
         carries a list of image tiles with x/y coordinates and a CDN URL.
 
 
-        This endpoint only supports the JSON response format.
-
-        '
+        This endpoint only supports the JSON response format.'
       tags:
       - Images
       x-microcks-operation:
@@ -73,15 +75,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   parameters:
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
     Culture:
       name: culture
       in: path
@@ -93,15 +86,39 @@ components:
         - nl
         - en
         example: en
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
   schemas:
-    ImageTilesResponse:
+    ImageTile:
       type: object
-      description: Tile pyramid description for an object's web image.
+      description: A single tile in the pyramid.
       properties:
-        levels:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageTileLevel'
+        x:
+          type: integer
+          example: 2
+        y:
+          type: integer
+          example: 2
+        url:
+          type: string
+          format: uri
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
     ImageTileLevel:
       type: object
       description: One zoom level of the tile pyramid.
@@ -120,32 +137,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTile'
-    Error:
+    ImageTilesResponse:
       type: object
-      description: Standard error payload (shape inferred from API responses).
+      description: Tile pyramid description for an object's web image.
       properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
-    ImageTile:
-      type: object
-      description: A single tile in the pyramid.
-      properties:
-        x:
-          type: integer
-          example: 2
-        y:
-          type: integer
-          example: 2
-        url:
-          type: string
-          format: uri
+        levels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTileLevel'
   responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
+    NotFound:
+      description: The requested object number could not be found.
       content:
         application/json:
           schema:
@@ -156,8 +158,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested object number could not be found.
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
       content:
         application/json:
           schema:

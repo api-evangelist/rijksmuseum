@@ -2,7 +2,11 @@ openapi: 3.2.0
 info:
   title: Rijksmuseum Collection API
   version: 1.0.0
-  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  description: 'The Rijksmuseum Collection API exposes the Dutch national museum''s collection
+
+    of more than 800,000 object records (with public-domain web images for over
+
+    600,000 of them) through a JSON / JSON-P / XML REST interface.'
   termsOfService: https://www.rijksmuseum.nl/en/data/policy
   contact:
     name: Rijksmuseum Research Services
@@ -33,11 +37,9 @@ paths:
 
         Pagination is capped so that `p * ps` cannot exceed 10,000 results — use
 
-        the [OAI-PMH harvesting API](https://data.rijksmuseum.nl/object-metadata/harvest/)
+        the OAI-PMH harvesting API
 
-        for full-corpus access.
-
-        '
+        for full-corpus access.'
       tags:
       - Collection
       x-microcks-operation:
@@ -168,26 +170,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    CollectionSearchResponse:
-      type: object
-      description: A page of summary art-object records.
-      required:
-      - count
-      - artObjects
-      properties:
-        elapsedMilliseconds:
-          type: integer
-          description: Server-side query time in milliseconds.
-          example: 0
-        count:
-          type: integer
-          description: Total number of objects matching the query (across all pages).
-          example: 3491
-        artObjects:
-          type: array
-          description: The art-object summaries for this page.
-          items:
-            $ref: '#/components/schemas/ArtObjectSummary'
     WebImage:
       type: object
       description: Reference to a CDN-hosted web image with offset and size metadata.
@@ -211,6 +193,16 @@ components:
           type: string
           format: uri
           example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
     ArtObjectSummary:
       type: object
       description: Lightweight art-object record returned by the search endpoint.
@@ -256,6 +248,26 @@ components:
             type: string
           example:
           - Amsterdam
+    CollectionSearchResponse:
+      type: object
+      description: A page of summary art-object records.
+      required:
+      - count
+      - artObjects
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          description: Server-side query time in milliseconds.
+          example: 0
+        count:
+          type: integer
+          description: Total number of objects matching the query (across all pages).
+          example: 3491
+        artObjects:
+          type: array
+          description: The art-object summaries for this page.
+          items:
+            $ref: '#/components/schemas/ArtObjectSummary'
     ArtObjectLinks:
       type: object
       description: Hypermedia links for an art object.
@@ -273,17 +285,18 @@ components:
           format: uri
           description: Present on detail responses; points back to the collection search base.
           example: http://www.rijksmuseum.nl/api/nl/collection
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
   parameters:
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
     Format:
       name: format
       in: query
@@ -306,26 +319,15 @@ components:
         type: string
         pattern: ^[A-Za-z0-9]+$
         example: 0fiuZxBwf
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
   responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
       content:
         application/json:
           schema:

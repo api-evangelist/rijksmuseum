@@ -1,10 +1,8 @@
 {
   "provider": "rijksmuseum",
   "sources": [
-    "rijksmuseum-collection-api-openapi.yml",
-    "rijksmuseum-images-api-openapi.yml",
-    "rijksmuseum-object-details-api-openapi.yml",
-    "rijksmuseum-user-generated-content-api-openapi.yml"
+    "_ae-authored/rijksmuseum-collection-openapi.yml",
+    "_ae-authored/rijksmuseum-user-sets-openapi.yml"
   ],
   "outputs": [
     "rijksmuseum-collection-api-openapi.yml",
@@ -16,11 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "rijksmuseum-collection-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "rijksmuseum-images-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "rijksmuseum-object-details-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "rijksmuseum-user-generated-content-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "rijksmuseum-collection-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "rijksmuseum-user-sets-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "rijksmuseum-collection-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rijksmuseum-images-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rijksmuseum-object-details-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "rijksmuseum-user-generated-content-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

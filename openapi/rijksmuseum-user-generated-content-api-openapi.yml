@@ -1,17 +1,21 @@
 openapi: 3.2.0
 info:
-  title: Rijksmuseum Collection User Generated Content API
+  title: Rijksmuseum Usersets User Generated Content API
   version: 1.0.0
-  description: "The Rijksmuseum Collection API exposes the Dutch national museum's collection\nof more than 800,000 object records (with public-domain web images for over\n600,000 of them) through a JSON / JSON-P / XML REST interface. Three\noperations are provided:\n\n* **Search the collection** — list paginated, language-localised result\n  pages with rich filters (maker, type, material, technique, century,\n  dominant colour, image availability, top-piece flag) using the same\n  filtering vocabulary as the museum's own advanced-search page.\n* **Get collection object details** — return the full record for a single\n  object (title, descriptions, principal maker biography, dating,\n  dimensions, materials, techniques, Iconclass classification, colours,\n  bilingual plaque text, acquisition history, exhibitions, web image).\n* **Get collection image tiles** — return a multi-level tile pyramid for an\n  object's web image so consumers can offer the same deep-zoom experience\n  used on rijksmuseum.nl.\n\nResponses are localised through the `culture` path parameter (`nl` for\nDutch, `en` for English). Every request must carry a `key` query parameter\nholding the caller's API key, which is issued instantly upon registering a\nfree Rijksstudio account.\n"
+  description: 'The Rijksmuseum Usersets API exposes user-generated content from
+
+    Rijksstudio — the Rijksmuseum''s collaborative platform where members curate
+
+    personal sets of objects from the collection.'
   termsOfService: https://www.rijksmuseum.nl/en/data/policy
   contact:
     name: Rijksmuseum Research Services
     url: https://www.rijksmuseum.nl/en/research/conduct-research/contact-form
   license:
-    name: Public Domain (most object images) / CC-BY (modern works) — see Data Policy
+    name: See Rijksmuseum Data Policy
     url: https://www.rijksmuseum.nl/en/data/policy
   x-generated-from: documentation
-  x-source-url: https://data.rijksmuseum.nl/object-metadata/api/
+  x-source-url: https://data.rijksmuseum.nl/user-generated-content/api/
   x-last-validated: '2026-05-29'
   x-api-evangelist-pipeline: opensource
 servers:
@@ -29,9 +33,7 @@ paths:
       summary: List Rijksstudio User Sets
       description: 'Returns a paginated list of Rijksstudio user sets. `page * pageSize`
 
-        cannot exceed 10,000.
-
-        '
+        cannot exceed 10,000.'
       tags:
       - User Generated Content
       x-microcks-operation:
@@ -82,9 +84,7 @@ paths:
 
         owner profile, set metadata, and the ordered list of set items
 
-        (`setItems`) linking back to Collection API objects.
-
-        '
+        (`setItems`) linking back to Collection API objects.'
       tags:
       - User Generated Content
       x-microcks-operation:
@@ -142,15 +142,17 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   parameters:
-    ApiKey:
-      name: key
-      in: query
+    Culture:
+      name: culture
+      in: path
       required: true
-      description: The caller's Rijksstudio API key.
+      description: Locale for the response content (`nl` Dutch, `en` English).
       schema:
         type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
+        enum:
+        - nl
+        - en
+        example: en
     Format:
       name: format
       in: query
@@ -164,235 +166,40 @@ components:
         - xml
         default: json
         example: json
-    Culture:
-      name: culture
-      in: path
+    ApiKey:
+      name: key
+      in: query
       required: true
-      description: Locale for the response content (`nl` Dutch, `en` English).
+      description: The caller's Rijksstudio API key.
       schema:
         type: string
-        enum:
-        - nl
-        - en
-        example: en
-  schemas:
-    UserSetItem:
-      type: object
-      description: One item in a Rijksstudio user set, linking back to a collection object.
-      properties:
-        links:
-          $ref: '#/components/schemas/UserSetItemLinks'
-        id:
-          type: string
-          example: 8c6e3ec4-08d9-4547-b72a-36907c0a3823
-        objectNumber:
-          type: string
-          example: SK-A-3148
-        relation:
-          type: string
-          example: None
-        relationDescription:
-          type: string
-          example: Held
-        cropped:
-          type: boolean
-          example: false
-        cropX:
-          type: integer
-          example: 0
-        cropY:
-          type: integer
-          example: 0
-        cropWidth:
-          type: integer
-          example: 0
-        cropHeight:
-          type: integer
-          example: 0
-        origWidth:
-          type: integer
-          example: 0
-        origHeight:
-          type: integer
-          example: 0
-        image:
-          $ref: '#/components/schemas/UserSetItemImage'
-    UserSetSummary:
-      type: object
-      description: Lightweight summary of a Rijksstudio user set.
-      properties:
-        links:
-          $ref: '#/components/schemas/UserSetLinks'
-        id:
-          type: string
-          example: 123-setname-3
-        count:
-          type: integer
-          example: 25
-        type:
-          type: string
-          example: Default
-        name:
-          type: string
-          example: setname (3)
-        slug:
-          type: string
-          example: setname-3
-        description:
-          type:
-          - string
-          - 'null'
-        user:
-          $ref: '#/components/schemas/RijksstudioUser'
-        createdOn:
-          type: string
-          format: date-time
-          example: '2012-11-02T12:28:21.9070376Z'
-        updatedOn:
-          type: string
-          format: date-time
-          example: '2013-04-10T10:50:21.7559145Z'
-    UserSet:
-      allOf:
-      - $ref: '#/components/schemas/UserSetSummary'
-      - type: object
-        properties:
-          setItems:
-            type: array
-            items:
-              $ref: '#/components/schemas/UserSetItem'
-    RijksstudioUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 321
-        name:
-          type: string
-          example: John
-        lang:
-          type: string
-          example: nl
-        avatarUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-        headerUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-        initials:
-          type: string
-          example: J
-    UserSetItemLinks:
-      type: object
-      properties:
-        artobject:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/nl/collection/SK-A-3148
-        web:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/nl/collection/SK-A-3148
-    UserSetListResponse:
-      type: object
-      description: A paginated page of Rijksstudio user-set summaries.
-      properties:
-        count:
-          type: integer
-          description: Total number of user sets across all pages.
-          example: 97957
-        elapsedMilliseconds:
-          type: integer
-          example: 631
-        userSets:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserSetSummary'
-    UserSetItemImage:
-      type: object
-      properties:
-        guid:
-          type: string
-          example: 6d40dc7d-e58c-4e13-812d-60cff190a3d5
-        parentObjectNumber:
-          type: string
-          example: SK-A-3148
-        cdnUrl:
-          type: string
-          format: uri
-        cropX:
-          type: integer
-        cropY:
-          type: integer
-        width:
-          type: integer
-          example: 1824
-        height:
-          type: integer
-          example: 2500
-        offsetPercentageX:
-          type: integer
-          example: 50
-        offsetPercentageY:
-          type: integer
-          example: 36
-    UserSetResponse:
-      type: object
-      description: Single Rijksstudio user set with its items.
-      properties:
-        elapsedMilliseconds:
-          type: integer
-          example: 505
-        userSet:
-          $ref: '#/components/schemas/UserSet'
-    UserSetLinks:
-      type: object
-      properties:
-        self:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/usersets/123-setname-3
-        overview:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/api/usersets
-        web:
-          type: string
-          format: uri
-          example: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
-  responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested set could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
   examples:
+    ListUserSetsPage2:
+      summary: Second page of Rijksstudio user sets
+      value:
+        count: 97957
+        elapsedMilliseconds: 631
+        userSets:
+        - links:
+            self: https://www.rijksmuseum.nl/api/usersets/123-setname-3
+            web: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
+          id: 123-setname-3
+          count: 25
+          type: Default
+          name: setname (3)
+          slug: setname-3
+          description: null
+          user:
+            id: 321
+            name: John
+            lang: nl
+            avatarUrl: null
+            headerUrl: null
+            initials: B
+          createdOn: '2012-11-02T12:28:21.9070376Z'
+          updatedOn: '2013-04-10T10:50:21.7559145Z'
     GetMeesterMatches:
       summary: Get the "meestermatches" user set
       value:
@@ -441,39 +248,226 @@ components:
               offsetPercentageY: 36
           createdOn: '2012-11-02T12:28:21.9070376Z'
           updatedOn: '2013-04-10T10:50:21.7559145Z'
-    ListUserSetsPage2:
-      summary: Second page of Rijksstudio user sets
-      value:
-        count: 97957
-        elapsedMilliseconds: 631
+  responses:
+    NotFound:
+      description: The requested set could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    RijksstudioUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 321
+        name:
+          type: string
+          example: John
+        lang:
+          type: string
+          example: nl
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        headerUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+        initials:
+          type: string
+          example: J
+    UserSetLinks:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/usersets/123-setname-3
+        overview:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/usersets
+        web:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
+    UserSetSummary:
+      type: object
+      description: Lightweight summary of a Rijksstudio user set.
+      properties:
+        links:
+          $ref: '#/components/schemas/UserSetLinks'
+        id:
+          type: string
+          example: 123-setname-3
+        count:
+          type: integer
+          example: 25
+        type:
+          type: string
+          example: Default
+        name:
+          type: string
+          example: setname (3)
+        slug:
+          type: string
+          example: setname-3
+        description:
+          type:
+          - string
+          - 'null'
+        user:
+          $ref: '#/components/schemas/RijksstudioUser'
+        createdOn:
+          type: string
+          format: date-time
+          example: '2012-11-02T12:28:21.9070376Z'
+        updatedOn:
+          type: string
+          format: date-time
+          example: '2013-04-10T10:50:21.7559145Z'
+    UserSetListResponse:
+      type: object
+      description: A paginated page of Rijksstudio user-set summaries.
+      properties:
+        count:
+          type: integer
+          description: Total number of user sets across all pages.
+          example: 97957
+        elapsedMilliseconds:
+          type: integer
+          example: 631
         userSets:
-        - links:
-            self: https://www.rijksmuseum.nl/api/usersets/123-setname-3
-            web: https://www.rijksmuseum.nl/nl/mijn/verzamelingen/321--john/setname-3
-          id: 123-setname-3
-          count: 25
-          type: Default
-          name: setname (3)
-          slug: setname-3
-          description: null
-          user:
-            id: 321
-            name: John
-            lang: nl
-            avatarUrl: null
-            headerUrl: null
-            initials: B
-          createdOn: '2012-11-02T12:28:21.9070376Z'
-          updatedOn: '2013-04-10T10:50:21.7559145Z'
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSetSummary'
+    UserSetResponse:
+      type: object
+      description: Single Rijksstudio user set with its items.
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          example: 505
+        userSet:
+          $ref: '#/components/schemas/UserSet'
+    UserSetItemLinks:
+      type: object
+      properties:
+        artobject:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/api/nl/collection/SK-A-3148
+        web:
+          type: string
+          format: uri
+          example: https://www.rijksmuseum.nl/nl/collection/SK-A-3148
+    UserSetItem:
+      type: object
+      description: One item in a Rijksstudio user set, linking back to a collection object.
+      properties:
+        links:
+          $ref: '#/components/schemas/UserSetItemLinks'
+        id:
+          type: string
+          example: 8c6e3ec4-08d9-4547-b72a-36907c0a3823
+        objectNumber:
+          type: string
+          example: SK-A-3148
+        relation:
+          type: string
+          example: None
+        relationDescription:
+          type: string
+          example: Held
+        cropped:
+          type: boolean
+          example: false
+        cropX:
+          type: integer
+          example: 0
+        cropY:
+          type: integer
+          example: 0
+        cropWidth:
+          type: integer
+          example: 0
+        cropHeight:
+          type: integer
+          example: 0
+        origWidth:
+          type: integer
+          example: 0
+        origHeight:
+          type: integer
+          example: 0
+        image:
+          $ref: '#/components/schemas/UserSetItemImage'
+    UserSetItemImage:
+      type: object
+      properties:
+        guid:
+          type: string
+          example: 6d40dc7d-e58c-4e13-812d-60cff190a3d5
+        parentObjectNumber:
+          type: string
+          example: SK-A-3148
+        cdnUrl:
+          type: string
+          format: uri
+        cropX:
+          type: integer
+        cropY:
+          type: integer
+        width:
+          type: integer
+          example: 1824
+        height:
+          type: integer
+          example: 2500
+        offsetPercentageX:
+          type: integer
+          example: 50
+        offsetPercentageY:
+          type: integer
+          example: 36
+    UserSet:
+      allOf:
+      - $ref: '#/components/schemas/UserSetSummary'
+      - type: object
+        properties:
+          setItems:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserSetItem'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
       in: query
       name: key
-      description: 'Free API key issued on creating a Rijksstudio account at
-
-        https://www.rijksmuseum.nl/en/rijksstudio. The key is available from the
-
-        account''s advanced settings.
-
-        '
+      description: Free API key issued on creating a Rijksstudio account.
