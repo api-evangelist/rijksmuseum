@@ -170,6 +170,33 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    ArtObjectLinks:
+      type: object
+      description: Hypermedia links for an art object.
+      properties:
+        self:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+        web:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+        search:
+          type: string
+          format: uri
+          description: Present on detail responses; points back to the collection search base.
+          example: http://www.rijksmuseum.nl/api/nl/collection
     WebImage:
       type: object
       description: Reference to a CDN-hosted web image with offset and size metadata.
@@ -193,16 +220,6 @@ components:
           type: string
           format: uri
           example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
     ArtObjectSummary:
       type: object
       description: Lightweight art-object record returned by the search endpoint.
@@ -268,70 +285,6 @@ components:
           description: The art-object summaries for this page.
           items:
             $ref: '#/components/schemas/ArtObjectSummary'
-    ArtObjectLinks:
-      type: object
-      description: Hypermedia links for an art object.
-      properties:
-        self:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
-        web:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
-        search:
-          type: string
-          format: uri
-          description: Present on detail responses; points back to the collection search base.
-          example: http://www.rijksmuseum.nl/api/nl/collection
-  parameters:
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-    Format:
-      name: format
-      in: query
-      required: false
-      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonp
-        - xml
-        default: json
-        example: json
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   examples:
     SearchRembrandtVanRijn:
       summary: Search by maker — Rembrandt van Rijn
@@ -359,6 +312,53 @@ components:
             url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
           productionPlaces:
           - Amsterdam
+  parameters:
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+  responses:
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

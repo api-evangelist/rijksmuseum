@@ -74,41 +74,7 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  parameters:
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
   schemas:
-    ImageTile:
-      type: object
-      description: A single tile in the pyramid.
-      properties:
-        x:
-          type: integer
-          example: 2
-        y:
-          type: integer
-          example: 2
-        url:
-          type: string
-          format: uri
     Error:
       type: object
       description: Standard error payload (shape inferred from API responses).
@@ -137,6 +103,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTile'
+    ImageTile:
+      type: object
+      description: A single tile in the pyramid.
+      properties:
+        x:
+          type: integer
+          example: 2
+        y:
+          type: integer
+          example: 2
+        url:
+          type: string
+          format: uri
     ImageTilesResponse:
       type: object
       description: Tile pyramid description for an object's web image.
@@ -145,7 +124,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTileLevel'
+  parameters:
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
   responses:
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested object number could not be found.
       content:
@@ -154,12 +160,6 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
       content:
         application/json:
           schema:

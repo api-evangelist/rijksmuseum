@@ -62,7 +62,7 @@ apis:
     — not the Collection Search API — to mirror more than 600,000 object records beyond the 10,000-object
     search ceiling.
   humanURL: https://data.rijksmuseum.nl/object-metadata/harvest/
-  baseURL: https://www.rijksmuseum.nl/api/oai
+  baseURL: https://data.rijksmuseum.nl/oai
   tags:
   - OAI-PMH
   - Harvesting
