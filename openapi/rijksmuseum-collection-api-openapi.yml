@@ -169,149 +169,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  schemas:
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
-    ArtObjectLinks:
-      type: object
-      description: Hypermedia links for an art object.
-      properties:
-        self:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
-        web:
-          type: string
-          format: uri
-          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
-        search:
-          type: string
-          format: uri
-          description: Present on detail responses; points back to the collection search base.
-          example: http://www.rijksmuseum.nl/api/nl/collection
-    WebImage:
-      type: object
-      description: Reference to a CDN-hosted web image with offset and size metadata.
-      properties:
-        guid:
-          type: string
-          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
-        offsetPercentageX:
-          type: integer
-          example: 0
-        offsetPercentageY:
-          type: integer
-          example: 1
-        width:
-          type: integer
-          example: 2500
-        height:
-          type: integer
-          example: 2034
-        url:
-          type: string
-          format: uri
-          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-    ArtObjectSummary:
-      type: object
-      description: Lightweight art-object record returned by the search endpoint.
-      properties:
-        links:
-          $ref: '#/components/schemas/ArtObjectLinks'
-        id:
-          type: string
-          description: Globally unique identifier including culture prefix.
-          example: nl-SK-C-5
-        objectNumber:
-          type: string
-          description: Rijksmuseum inventory number.
-          example: SK-C-5
-        title:
-          type: string
-          description: Short title in the requested culture.
-          example: De Nachtwacht
-        hasImage:
-          type: boolean
-          example: true
-        principalOrFirstMaker:
-          type: string
-          description: Display name of the principal or first maker.
-          example: Rembrandt van Rijn
-        longTitle:
-          type: string
-          description: Long form title including maker and date.
-          example: De Nachtwacht, Rembrandt van Rijn, 1642
-        showImage:
-          type: boolean
-          example: true
-        permitDownload:
-          type: boolean
-          example: true
-        webImage:
-          $ref: '#/components/schemas/WebImage'
-        headerImage:
-          $ref: '#/components/schemas/WebImage'
-        productionPlaces:
-          type: array
-          items:
-            type: string
-          example:
-          - Amsterdam
-    CollectionSearchResponse:
-      type: object
-      description: A page of summary art-object records.
-      required:
-      - count
-      - artObjects
-      properties:
-        elapsedMilliseconds:
-          type: integer
-          description: Server-side query time in milliseconds.
-          example: 0
-        count:
-          type: integer
-          description: Total number of objects matching the query (across all pages).
-          example: 3491
-        artObjects:
-          type: array
-          description: The art-object summaries for this page.
-          items:
-            $ref: '#/components/schemas/ArtObjectSummary'
-  examples:
-    SearchRembrandtVanRijn:
-      summary: Search by maker — Rembrandt van Rijn
-      value:
-        elapsedMilliseconds: 0
-        count: 3491
-        artObjects:
-        - links:
-            self: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
-            web: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
-          id: nl-SK-C-5
-          objectNumber: SK-C-5
-          title: De Nachtwacht
-          hasImage: true
-          principalOrFirstMaker: Rembrandt van Rijn
-          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
-          showImage: true
-          permitDownload: true
-          webImage:
-            guid: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
-            offsetPercentageX: 0
-            offsetPercentageY: 1
-            width: 2500
-            height: 2034
-            url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-          productionPlaces:
-          - Amsterdam
   parameters:
     ApiKey:
       name: key
@@ -359,6 +216,149 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    CollectionSearchResponse:
+      type: object
+      description: A page of summary art-object records.
+      required:
+      - count
+      - artObjects
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          description: Server-side query time in milliseconds.
+          example: 0
+        count:
+          type: integer
+          description: Total number of objects matching the query (across all pages).
+          example: 3491
+        artObjects:
+          type: array
+          description: The art-object summaries for this page.
+          items:
+            $ref: '#/components/schemas/ArtObjectSummary'
+    ArtObjectLinks:
+      type: object
+      description: Hypermedia links for an art object.
+      properties:
+        self:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+        web:
+          type: string
+          format: uri
+          example: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+        search:
+          type: string
+          format: uri
+          description: Present on detail responses; points back to the collection search base.
+          example: http://www.rijksmuseum.nl/api/nl/collection
+    ArtObjectSummary:
+      type: object
+      description: Lightweight art-object record returned by the search endpoint.
+      properties:
+        links:
+          $ref: '#/components/schemas/ArtObjectLinks'
+        id:
+          type: string
+          description: Globally unique identifier including culture prefix.
+          example: nl-SK-C-5
+        objectNumber:
+          type: string
+          description: Rijksmuseum inventory number.
+          example: SK-C-5
+        title:
+          type: string
+          description: Short title in the requested culture.
+          example: De Nachtwacht
+        hasImage:
+          type: boolean
+          example: true
+        principalOrFirstMaker:
+          type: string
+          description: Display name of the principal or first maker.
+          example: Rembrandt van Rijn
+        longTitle:
+          type: string
+          description: Long form title including maker and date.
+          example: De Nachtwacht, Rembrandt van Rijn, 1642
+        showImage:
+          type: boolean
+          example: true
+        permitDownload:
+          type: boolean
+          example: true
+        webImage:
+          $ref: '#/components/schemas/WebImage'
+        headerImage:
+          $ref: '#/components/schemas/WebImage'
+        productionPlaces:
+          type: array
+          items:
+            type: string
+          example:
+          - Amsterdam
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    WebImage:
+      type: object
+      description: Reference to a CDN-hosted web image with offset and size metadata.
+      properties:
+        guid:
+          type: string
+          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+        offsetPercentageX:
+          type: integer
+          example: 0
+        offsetPercentageY:
+          type: integer
+          example: 1
+        width:
+          type: integer
+          example: 2500
+        height:
+          type: integer
+          example: 2034
+        url:
+          type: string
+          format: uri
+          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+  examples:
+    SearchRembrandtVanRijn:
+      summary: Search by maker — Rembrandt van Rijn
+      value:
+        elapsedMilliseconds: 0
+        count: 3491
+        artObjects:
+        - links:
+            self: http://www.rijksmuseum.nl/api/nl/collection/SK-C-5
+            web: http://www.rijksmuseum.nl/nl/collectie/SK-C-5
+          id: nl-SK-C-5
+          objectNumber: SK-C-5
+          title: De Nachtwacht
+          hasImage: true
+          principalOrFirstMaker: Rembrandt van Rijn
+          longTitle: De Nachtwacht, Rembrandt van Rijn, 1642
+          showImage: true
+          permitDownload: true
+          webImage:
+            guid: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+            offsetPercentageX: 0
+            offsetPercentageY: 1
+            width: 2500
+            height: 2034
+            url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
+          productionPlaces:
+          - Amsterdam
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

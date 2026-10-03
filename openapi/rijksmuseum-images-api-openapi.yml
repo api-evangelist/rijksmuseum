@@ -74,56 +74,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  schemas:
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
-          type: string
-          example: Invalid API key.
-    ImageTileLevel:
-      type: object
-      description: One zoom level of the tile pyramid.
-      properties:
-        name:
-          type: string
-          description: Level name. `z0` is largest; `z6` is smallest.
-          example: z3
-        width:
-          type: integer
-          example: 1771
-        height:
-          type: integer
-          example: 1441
-        tiles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageTile'
-    ImageTile:
-      type: object
-      description: A single tile in the pyramid.
-      properties:
-        x:
-          type: integer
-          example: 2
-        y:
-          type: integer
-          example: 2
-        url:
-          type: string
-          format: uri
-    ImageTilesResponse:
-      type: object
-      description: Tile pyramid description for an object's web image.
-      properties:
-        levels:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImageTileLevel'
   parameters:
     ApiKey:
       name: key
@@ -152,14 +102,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested object number could not be found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: The requested object number could not be found.
       content:
         application/json:
           schema:
@@ -183,6 +133,56 @@ components:
           - x: 1
             y: 0
             url: http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0
+  schemas:
+    ImageTilesResponse:
+      type: object
+      description: Tile pyramid description for an object's web image.
+      properties:
+        levels:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTileLevel'
+    ImageTile:
+      type: object
+      description: A single tile in the pyramid.
+      properties:
+        x:
+          type: integer
+          example: 2
+        y:
+          type: integer
+          example: 2
+        url:
+          type: string
+          format: uri
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    ImageTileLevel:
+      type: object
+      description: One zoom level of the tile pyramid.
+      properties:
+        name:
+          type: string
+          description: Level name. `z0` is largest; `z6` is smallest.
+          example: z3
+        width:
+          type: integer
+          example: 1771
+        height:
+          type: integer
+          example: 1441
+        tiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageTile'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
