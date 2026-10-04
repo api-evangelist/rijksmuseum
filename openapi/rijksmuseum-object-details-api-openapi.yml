@@ -71,48 +71,15 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Exhibition:
+    ColorWeight:
       type: object
-      description: Past or upcoming exhibition that has featured this object.
       properties:
-        title:
-          type: string
-        startDate:
-          type: string
-        endDate:
-          type: string
-        location:
-          type: string
-    Dating:
-      type: object
-      description: Date range and century context for the object's production.
-      properties:
-        presentingDate:
-          type: string
-          example: '1642'
-        sortingDate:
+        percentage:
           type: integer
-          example: 1642
-        period:
-          type: integer
-          description: Century (0–21).
-          example: 17
-        yearEarly:
-          type: integer
-          example: 1642
-        yearLate:
-          type: integer
-          example: 1642
-    Error:
-      type: object
-      description: Standard error payload (shape inferred from API responses).
-      properties:
-        statusCode:
-          type: integer
-          example: 401
-        message:
+          example: 81
+        hex:
           type: string
-          example: Invalid API key.
+          example: '#261808'
     WebImage:
       type: object
       description: Reference to a CDN-hosted web image with offset and size metadata.
@@ -136,82 +103,18 @@ components:
           type: string
           format: uri
           example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
-    ColorNormalization:
+    Exhibition:
       type: object
-      properties:
-        originalHex:
-          type: string
-          example: '#261808'
-        normalizedHex:
-          type: string
-          example: '#000000'
-    Label:
-      type: object
-      description: Curatorial label text for display.
+      description: Past or upcoming exhibition that has featured this object.
       properties:
         title:
           type: string
-        makerLine:
+        startDate:
           type: string
-        description:
+        endDate:
           type: string
-        notes:
+        location:
           type: string
-        date:
-          type: string
-          example: '2019-07-05'
-    CollectionObjectResponse:
-      type: object
-      description: Full art-object record returned by the details endpoint.
-      properties:
-        elapsedMilliseconds:
-          type: integer
-          example: 219
-        artObject:
-          $ref: '#/components/schemas/ArtObject'
-    Dimension:
-      type: object
-      description: Physical dimension entry (height, width, weight, etc.).
-      properties:
-        unit:
-          type: string
-          example: cm
-        type:
-          type: string
-          example: hoogte
-        part:
-          type:
-          - string
-          - 'null'
-        value:
-          type: string
-          example: 379,5
-    Classification:
-      type: object
-      description: Subject classification using Iconclass and related vocabularies.
-      properties:
-        iconClassIdentifier:
-          type: array
-          items:
-            type: string
-          example:
-          - 45(+26)
-        iconClassDescription:
-          type: array
-          items:
-            type: string
-        motifs:
-          type: array
-          items:
-            type: string
-        events:
-          type: array
-          items:
-            type: string
-        objectNumbers:
-          type: array
-          items:
-            type: string
     ArtObject:
       type: object
       description: Full Rijksmuseum art-object record.
@@ -378,6 +281,106 @@ components:
           type: string
           description: Current location code within the museum.
           example: HG-2.31
+    Acquisition:
+      type: object
+      description: How and when the object entered the Rijksmuseum collection.
+      properties:
+        method:
+          type: string
+          example: bruikleen
+        date:
+          type: string
+          example: '1808-01-01T00:00:00'
+        creditLine:
+          type: string
+          example: Bruikleen van de gemeente Amsterdam
+    Label:
+      type: object
+      description: Curatorial label text for display.
+      properties:
+        title:
+          type: string
+        makerLine:
+          type: string
+        description:
+          type: string
+        notes:
+          type: string
+        date:
+          type: string
+          example: '2019-07-05'
+    Classification:
+      type: object
+      description: Subject classification using Iconclass and related vocabularies.
+      properties:
+        iconClassIdentifier:
+          type: array
+          items:
+            type: string
+          example:
+          - 45(+26)
+        iconClassDescription:
+          type: array
+          items:
+            type: string
+        motifs:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: string
+        objectNumbers:
+          type: array
+          items:
+            type: string
+    CollectionObjectResponse:
+      type: object
+      description: Full art-object record returned by the details endpoint.
+      properties:
+        elapsedMilliseconds:
+          type: integer
+          example: 219
+        artObject:
+          $ref: '#/components/schemas/ArtObject'
+    Dimension:
+      type: object
+      description: Physical dimension entry (height, width, weight, etc.).
+      properties:
+        unit:
+          type: string
+          example: cm
+        type:
+          type: string
+          example: hoogte
+        part:
+          type:
+          - string
+          - 'null'
+        value:
+          type: string
+          example: 379,5
+    Dating:
+      type: object
+      description: Date range and century context for the object's production.
+      properties:
+        presentingDate:
+          type: string
+          example: '1642'
+        sortingDate:
+          type: integer
+          example: 1642
+        period:
+          type: integer
+          description: Century (0–21).
+          example: 17
+        yearEarly:
+          type: integer
+          example: 1642
+        yearLate:
+          type: integer
+          example: 1642
     Maker:
       type: object
       description: A person or entity who contributed to the production of the object.
@@ -439,28 +442,6 @@ components:
           type:
           - string
           - 'null'
-    Acquisition:
-      type: object
-      description: How and when the object entered the Rijksmuseum collection.
-      properties:
-        method:
-          type: string
-          example: bruikleen
-        date:
-          type: string
-          example: '1808-01-01T00:00:00'
-        creditLine:
-          type: string
-          example: Bruikleen van de gemeente Amsterdam
-    ColorWeight:
-      type: object
-      properties:
-        percentage:
-          type: integer
-          example: 81
-        hex:
-          type: string
-          example: '#261808'
     ArtObjectLinks:
       type: object
       description: Hypermedia links for an art object.
@@ -478,43 +459,28 @@ components:
           format: uri
           description: Present on detail responses; points back to the collection search base.
           example: http://www.rijksmuseum.nl/api/nl/collection
-  parameters:
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
-    Format:
-      name: format
-      in: query
-      required: false
-      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonp
-        - xml
-        default: json
-        example: json
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
+    Error:
+      type: object
+      description: Standard error payload (shape inferred from API responses).
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid API key.
+    ColorNormalization:
+      type: object
+      properties:
+        originalHex:
+          type: string
+          example: '#261808'
+        normalizedHex:
+          type: string
+          example: '#000000'
   responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
+    NotFound:
+      description: The requested object number could not be found.
       content:
         application/json:
           schema:
@@ -525,8 +491,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested object number could not be found.
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
       content:
         application/json:
           schema:
@@ -563,6 +529,40 @@ components:
           hasImage: true
           showImage: true
           location: HG-2.31
+  parameters:
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

@@ -169,53 +169,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  parameters:
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
-    Format:
-      name: format
-      in: query
-      required: false
-      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonp
-        - xml
-        default: json
-        example: json
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-  responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     CollectionSearchResponse:
       type: object
@@ -254,6 +207,29 @@ components:
           format: uri
           description: Present on detail responses; points back to the collection search base.
           example: http://www.rijksmuseum.nl/api/nl/collection
+    WebImage:
+      type: object
+      description: Reference to a CDN-hosted web image with offset and size metadata.
+      properties:
+        guid:
+          type: string
+          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
+        offsetPercentageX:
+          type: integer
+          example: 0
+        offsetPercentageY:
+          type: integer
+          example: 1
+        width:
+          type: integer
+          example: 2500
+        height:
+          type: integer
+          example: 2034
+        url:
+          type: string
+          format: uri
+          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
     ArtObjectSummary:
       type: object
       description: Lightweight art-object record returned by the search endpoint.
@@ -309,29 +285,6 @@ components:
         message:
           type: string
           example: Invalid API key.
-    WebImage:
-      type: object
-      description: Reference to a CDN-hosted web image with offset and size metadata.
-      properties:
-        guid:
-          type: string
-          example: aa08df9c-0af9-4195-b31b-f578fbe0a4c9
-        offsetPercentageX:
-          type: integer
-          example: 0
-        offsetPercentageY:
-          type: integer
-          example: 1
-        width:
-          type: integer
-          example: 2500
-        height:
-          type: integer
-          example: 2034
-        url:
-          type: string
-          format: uri
-          example: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
   examples:
     SearchRembrandtVanRijn:
       summary: Search by maker — Rembrandt van Rijn
@@ -359,6 +312,53 @@ components:
             url: https://lh3.googleusercontent.com/J-mxAE7CPu-DXIOx4QKBtb0GC4ud37da1QK7CzbTIDswmvZHXhLm4Tv2-1H3iBXJWAW_bHm7dMl3j5wv_XiWAg55VOM=s0
           productionPlaces:
           - Amsterdam
+  parameters:
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    Format:
+      name: format
+      in: query
+      required: false
+      description: Response format. `json` is the default; `jsonp` requires a `callback` parameter; `xml` is also offered.
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonp
+        - xml
+        default: json
+        example: json
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyQuery:
       type: apiKey

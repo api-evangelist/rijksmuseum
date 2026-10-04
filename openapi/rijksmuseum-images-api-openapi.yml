@@ -74,65 +74,6 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  parameters:
-    ApiKey:
-      name: key
-      in: query
-      required: true
-      description: The caller's Rijksstudio API key.
-      schema:
-        type: string
-        pattern: ^[A-Za-z0-9]+$
-        example: 0fiuZxBwf
-    Culture:
-      name: culture
-      in: path
-      required: true
-      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
-      schema:
-        type: string
-        enum:
-        - nl
-        - en
-        example: en
-  responses:
-    RateLimited:
-      description: Daily quota or short-window rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested object number could not be found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  examples:
-    GetNightWatchTiles:
-      summary: Tile pyramid for *The Night Watch*
-      value:
-        levels:
-        - name: z3
-          width: 1771
-          height: 1441
-          tiles:
-          - x: 2
-            y: 2
-            url: http://lh3.googleusercontent.com/-I1HN0VxmDySYN5oCqaykuTRukdFh-JemILAmTvHtGsGnBm968CiQpxkfgqQZnbKD5bS1m0tGZYx7v8HFnWjE3kizw=s0
-        - name: z4
-          width: 885
-          height: 720
-          tiles:
-          - x: 1
-            y: 0
-            url: http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0
   schemas:
     ImageTilesResponse:
       type: object
@@ -183,6 +124,65 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ImageTile'
+  examples:
+    GetNightWatchTiles:
+      summary: Tile pyramid for *The Night Watch*
+      value:
+        levels:
+        - name: z3
+          width: 1771
+          height: 1441
+          tiles:
+          - x: 2
+            y: 2
+            url: http://lh3.googleusercontent.com/-I1HN0VxmDySYN5oCqaykuTRukdFh-JemILAmTvHtGsGnBm968CiQpxkfgqQZnbKD5bS1m0tGZYx7v8HFnWjE3kizw=s0
+        - name: z4
+          width: 885
+          height: 720
+          tiles:
+          - x: 1
+            y: 0
+            url: http://lh3.googleusercontent.com/-fBdzIPG0qlGnIkqKUFaX3dAiEnC9jnfCIR9ib32M1xh7bPHuK6ZTJMxgwn8jYsvymdupCFdtm3vHJg-n10JuhBD7w=s0
+  responses:
+    NotFound:
+      description: The requested object number could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Daily quota or short-window rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Culture:
+      name: culture
+      in: path
+      required: true
+      description: Locale for both the query semantics and the response content (`nl` Dutch, `en` English).
+      schema:
+        type: string
+        enum:
+        - nl
+        - en
+        example: en
+    ApiKey:
+      name: key
+      in: query
+      required: true
+      description: The caller's Rijksstudio API key.
+      schema:
+        type: string
+        pattern: ^[A-Za-z0-9]+$
+        example: 0fiuZxBwf
   securitySchemes:
     ApiKeyQuery:
       type: apiKey
