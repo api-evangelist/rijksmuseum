@@ -44,7 +44,6 @@ x-tier-reason: museum-open-data-with-api-key-and-rich-public-domain-content
 x-governance: open-data
 x-license-policy: cc0-or-public-domain-for-most-images
 tags:
-  - Art And Design
   - Museums
   - Cultural Heritage
   - Open Data
@@ -53,6 +52,7 @@ tags:
   - IIIF
   - Dutch Heritage
   - Public APIs
+  - Art
 apis:
 - name: OAI-PMH Harvesting API
   description: >-
@@ -267,3 +267,5 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-tags-removed:
+- Art And Design
