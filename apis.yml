@@ -35,7 +35,7 @@ accessModel:
 image: https://www.rijksmuseum.nl/assets/site/img/logo.png
 specificationVersion: '0.23'
 created: '2026-05-28'
-modified: '2026-05-29'
+modified: '2026-10-06'
 x-type: opensource
 x-source: public-apis/public-apis
 x-category: Art & Design
@@ -175,6 +175,8 @@ apis:
   - type: JSONSchema
     url: json-schema/rijksmuseum-user-set-schema.json
 common:
+  - url: https://www.rijksmuseum.nl/en/stories
+    type: Blog
   - type: AgenticAccess
     url: agentic-access/rijksmuseum-agentic-access.yml
   - type: DomainSecurity
