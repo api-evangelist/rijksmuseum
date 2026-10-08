@@ -95,3 +95,23 @@ plans:
       - name: Linked Data Event Streams (LDES)
       - name: Linked Art / Europeana Data Model Modelling
       - name: Public Domain Image Reuse (CC0 / PDM)
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - object
+  - request
+  plans:
+  - name: Rijksstudio Open Data
+    access: freemium
+    model: subscription
+    model_how: derived
+    units:
+    - object
+    - other
+    - request
+    periods:
+    - day
+    - per-use
