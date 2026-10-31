@@ -1,4 +1,4 @@
-# Rijksmuseum (rijksmuseum)
+# Rijksmuseum
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,192 +66,168 @@
 
 Rijksmuseum is the Dutch national museum dedicated to Dutch arts and history, located in Amsterdam. Its RijksData open-data programme exposes more than 800,000 collection object metadata records, 600,000+ public-domain images, 320,000 bibliographic records, 160,000 actor / institution records, and 70,000 controlled-vocabulary terms through a family of JSON-based REST APIs, an OAI-PMH harvesting endpoint, IIIF tile services, and linked-data dumps.
 
-**APIs.json:** [https://data.rijksmuseum.nl/](https://data.rijksmuseum.nl/)
+**Areas:** Museums · Cultural Heritage · Open Data · Linked Data · OAI-PMH · IIIF · Dutch Heritage · Public APIs · Art
 
-## Tags
+## Rijksmuseum on APIs.io
 
-- Art And Design
-- Museums
-- Cultural Heritage
-- Open Data
-- Linked Data
-- OAI-PMH
-- IIIF
-- Dutch Heritage
-- Public APIs
+Everything profiled for Rijksmuseum is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/rijksmuseum/](https://apis.io/providers/rijksmuseum/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Created:** 2026-05-28
-- **Modified:** 2026-05-29
+- [OAI-PMH Harvesting API](https://apis.io/apis/rijksmuseum/oai-pmh-harvesting-api/) — Standards-based bulk harvesting endpoint implementing the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH 2.0). Supports ListRecords,…
+- [Rijksmuseum Collection API](https://apis.io/apis/rijksmuseum/rijksmuseum-collection-api/) — Search and browse the Rijksmuseum collection.
+- [Rijksmuseum Images API](https://apis.io/apis/rijksmuseum/rijksmuseum-images-api/) — Deep-zoom tile pyramids for object web images.
+- [Rijksmuseum Object Details API](https://apis.io/apis/rijksmuseum/rijksmuseum-object-details-api/) — Retrieve the full record for a single object.
+- [Rijksmuseum User Generated Content API](https://apis.io/apis/rijksmuseum/rijksmuseum-user-generated-content-api/) — Rijksstudio sets curated by Rijksmuseum's online community.
 
-## APIs
+### Published properties
 
-### Collection Search API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Returns a paginated list of objects in the Rijksmuseum collection. Mirrors the museum's own advanced-search experience and supports rich filters by maker, type, material, technique, century, dominant colour, image availability, and top-piece status. Results are language-localised via the culture path segment (`nl` or `en`) and capped at 10,000 objects per query (page * pageSize <= 10,000).
+#### Agentic access (1)
 
-- **Human URL:** [https://data.rijksmuseum.nl/object-metadata/api/](https://data.rijksmuseum.nl/object-metadata/api/)
-- **Base URL:** `https://www.rijksmuseum.nl/api`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Rijksmuseum Agentic Access](https://apis.io/agentic-access/rijksmuseum/rijksmuseum-agentic-access/)
 
-- Collection
-- Search
-- Art And Design
+#### JSON Schema (5)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://data.rijksmuseum.nl/object-metadata/api/)
-- [OpenAPI](openapi/rijksmuseum-collection-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/rijksmuseum-collection.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-collection.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/rijksmuseum-art-object-summary-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [Rijksmuseum Art Object](https://apis.io/schemas/rijksmuseum/rijksmuseum-art-object/)
+- [Rijksmuseum Art Object Summary](https://apis.io/schemas/rijksmuseum/rijksmuseum-art-object-summary/)
+- [Rijksmuseum Image Tiles](https://apis.io/schemas/rijksmuseum/rijksmuseum-image-tiles/)
+- [Rijksstudio User Set](https://apis.io/schemas/rijksmuseum/rijksmuseum-user-set/)
+- [Rijksstudio User Set Summary](https://apis.io/schemas/rijksmuseum/rijksmuseum-user-set-summary/)
 
-### Collection Details API
+#### JSON Structure (5)
 
-Returns the full record for a single object identified by its object-number (e.g. `SK-C-5`). Includes title, descriptions, principal maker biography, dating, dimensions, materials, techniques, classification (Iconclass), colours, plaque text in both Dutch and English, acquisition history, exhibitions, and the web image with offset percentages.
+Data models expressed in JSON Structure.
 
-- **Human URL:** [https://data.rijksmuseum.nl/object-metadata/api/](https://data.rijksmuseum.nl/object-metadata/api/)
-- **Base URL:** `https://www.rijksmuseum.nl/api`
+- [Rijksmuseum Art Object Structure](https://apis.io/json-structure/rijksmuseum/rijksmuseum-art-object-structure/)
+- [Rijksmuseum Art Object Summary Structure](https://apis.io/json-structure/rijksmuseum/rijksmuseum-art-object-summary-structure/)
+- [Rijksmuseum Image Tiles Structure](https://apis.io/json-structure/rijksmuseum/rijksmuseum-image-tiles-structure/)
+- [Rijksmuseum User Set Structure](https://apis.io/json-structure/rijksmuseum/rijksmuseum-user-set-structure/)
+- [Rijksmuseum User Set Summary Structure](https://apis.io/json-structure/rijksmuseum/rijksmuseum-user-set-summary-structure/)
 
-#### Tags
+#### JSON-LD (1)
 
-- Collection
-- Object Details
-- Art And Design
+Linked-data contexts for the provider's vocabulary.
 
-#### Properties
+- [Rijksmuseum Context](https://apis.io/jsonld/rijksmuseum/rijksmuseum-context/)
 
-- [Documentation](https://data.rijksmuseum.nl/object-metadata/api/)
-- [OpenAPI](openapi/rijksmuseum-collection-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/rijksmuseum-collection.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-collection.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/rijksmuseum-art-object-schema.json) — [JSON Schema](https://json-schema.org/specification)
+#### Vocabulary (1)
 
-### Collection Image Tiles API
+The provider's domain terms, defined.
 
-Returns a tile-pyramid description for an object's web image to power deep zoom experiences (the same scheme used on rijksmuseum.nl). Each level (z0 to z6) lists tile URLs with x/y coordinates and the level's total width/height. JSON-only.
+- [Rijksmuseum Vocabulary](https://apis.io/vocabularies/rijksmuseum/rijksmuseum-vocabulary/)
 
-- **Human URL:** [https://data.rijksmuseum.nl/object-metadata/api/](https://data.rijksmuseum.nl/object-metadata/api/)
-- **Base URL:** `https://www.rijksmuseum.nl/api`
+#### Examples (5)
 
-#### Tags
+Example requests and responses.
 
-- Collection
-- Images
-- Deep Zoom
-- IIIF Adjacent
+- [Rijksmuseum Get Collection Object Example](https://apis.io/examples/rijksmuseum/rijksmuseum-get-collection-object-example/)
+- [Rijksmuseum Get Collection Object Tiles Example](https://apis.io/examples/rijksmuseum/rijksmuseum-get-collection-object-tiles-example/)
+- [Rijksmuseum Get User Set Example](https://apis.io/examples/rijksmuseum/rijksmuseum-get-user-set-example/)
+- [Rijksmuseum List User Sets Example](https://apis.io/examples/rijksmuseum/rijksmuseum-list-user-sets-example/)
+- [Rijksmuseum Search Collection Example](https://apis.io/examples/rijksmuseum/rijksmuseum-search-collection-example/)
 
-#### Properties
+#### Collections (6)
 
-- [Documentation](https://data.rijksmuseum.nl/object-metadata/api/)
-- [OpenAPI](openapi/rijksmuseum-collection-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/rijksmuseum-collection.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-collection.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/rijksmuseum-image-tiles-schema.json) — [JSON Schema](https://json-schema.org/specification)
+Postman and Open Collection request collections.
 
-### Usersets API
+- [Rijksmuseum Collection API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-collection/)
+- [Rijksmuseum Collection API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-collection-api/)
+- [Rijksmuseum Collection Images API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-images-api/)
+- [Rijksmuseum Collection Object Details API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-object-details-api/)
+- [Rijksmuseum Collection User Generated Content API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-user-generated-content-api/)
+- [Rijksmuseum Usersets API](https://apis.io/collections/rijksmuseum/open-rijksmuseum-user-sets/)
 
-Lists user-generated sets ("Rijksstudio sets") of objects curated by Rijksstudio members. Each set has an owner, name, slug, object count, and created/updated timestamps. Useful for surfacing community-curated mini exhibitions and personal collections.
+#### Governance rules (2)
 
-- **Human URL:** [https://data.rijksmuseum.nl/user-generated-content/api/](https://data.rijksmuseum.nl/user-generated-content/api/)
-- **Base URL:** `https://www.rijksmuseum.nl/api`
+Spectral rulesets for the provider's contracts.
 
-#### Tags
+- [Rijksmuseum — jsonschema rules](https://apis.io/rules/rijksmuseum/rijksmuseum-jsonschema-spectral-rules/)
+- [Rijksmuseum API Rules](https://apis.io/rules/rijksmuseum/rijksmuseum-rules/)
 
-- User Generated Content
-- Sets
-- Rijksstudio
+#### Security (2)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://data.rijksmuseum.nl/user-generated-content/api/)
-- [OpenAPI](openapi/rijksmuseum-user-sets-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/rijksmuseum-user-sets.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-user-sets.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/rijksmuseum-user-set-summary-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [Rijksmuseum Authentication](https://apis.io/security/rijksmuseum/rijksmuseum-authentication/)
+- [Rijksmuseum Domain Security](https://apis.io/security/rijksmuseum/rijksmuseum-domain-security/)
 
-### Userset Details API
+#### Plans and pricing (1)
 
-Returns the full contents of a single Rijksstudio set including the owner profile, the ordered list of set items (each linking to a Collection object and image), and crop metadata for cover images.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://data.rijksmuseum.nl/user-generated-content/api/](https://data.rijksmuseum.nl/user-generated-content/api/)
-- **Base URL:** `https://www.rijksmuseum.nl/api`
+- [Rijksmuseum Plans Pricing](https://apis.io/plans/rijksmuseum/rijksmuseum-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- User Generated Content
-- Sets
-- Rijksstudio
+Published request limits.
 
-#### Properties
+- [Rijksmuseum Rate Limits](https://apis.io/rate-limits/rijksmuseum/rijksmuseum-rate-limits/)
 
-- [Documentation](https://data.rijksmuseum.nl/user-generated-content/api/)
-- [OpenAPI](openapi/rijksmuseum-user-sets-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/rijksmuseum-user-sets.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-user-sets.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/rijksmuseum-user-set-schema.json) — [JSON Schema](https://json-schema.org/specification)
+## Where to find this API
 
-### OAI-PMH Harvesting API
-
-Standards-based bulk harvesting endpoint implementing the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH 2.0). Supports ListRecords, GetRecord, ListMetadataFormats, ListSets, and ListIdentifiers verbs across the Dublin Core (dc), Europeana Data Model (edm_dc), and LIDO metadata formats. Use this — not the Collection Search API — to mirror more than 600,000 object records beyond the 10,000-object search ceiling.
-
-- **Human URL:** [https://data.rijksmuseum.nl/object-metadata/harvest/](https://data.rijksmuseum.nl/object-metadata/harvest/)
-- **Base URL:** `https://www.rijksmuseum.nl/api/oai`
-
-#### Tags
-
-- OAI-PMH
-- Harvesting
-- Bulk Data
-- Dublin Core
-- Europeana
-- LIDO
-
-#### Properties
-
-- [Documentation](https://data.rijksmuseum.nl/object-metadata/harvest/)
-- [Code Examples](https://github.com/Q42/SimpleOAIHarvester)
-- [Postman Collection](collections/rijksmuseum-collection.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-collection.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/rijksmuseum-user-sets.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/rijksmuseum-user-sets.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.rijksmuseum.nl/en)
 - [Documentation](https://data.rijksmuseum.nl/)
-- [Documentation](https://rijksmuseum.github.io/)
-- [GitHub Organization](https://github.com/Rijksmuseum)
-- [Sign Up](https://www.rijksmuseum.nl/en/rijksstudio)
-- [Authentication](https://data.rijksmuseum.nl/object-metadata/api/#access-to-apis)
-- [Plans](plans/rijksmuseum-plans-pricing.yml)
-- [Rate Limits](rate-limits/rijksmuseum-rate-limits.yml)
-- [Terms of Service](https://www.rijksmuseum.nl/en/data/policy)
-- [License](https://creativecommons.org/publicdomain/mark/1.0/)
-- [License](https://creativecommons.org/licenses/by/4.0/)
-- [Knowledge](https://www.rijksmuseum.nl/en/data/policy)
-- [Vocabulary](vocabulary/rijksmuseum-vocabulary.yml)
-- [Discovery](https://data.rijksmuseum.nl/controlled-vocabularies/)
-- [Discovery](https://data.rijksmuseum.nl/bibliographic-data/)
-- [Integrations](https://lido-schema.org/)
-- [Integrations](https://pro.europeana.eu/edm-documentation)
-- [Integrations](https://www.dublincore.org/specifications/dublin-core/)
-- [Integrations](https://linked.art/)
-- [Integrations](https://iiif.io/)
-- [Tools](https://github.com/Rijksmuseum/aio_oai_repo)
-- [Tools](https://github.com/r-huijts/rijksmuseum-mcp)
-- [Tools](https://github.com/kintopp/rijksmuseum-mcp-plus)
-- [Tools](https://github.com/kintopp/rijksmuseum-mcp-client)
-- [Tools](https://github.com/lwsinclair/rijksmuseum-mcp-oaipmh)
-- [Tools](https://github.com/kintopp/rijksmuseum-iconclass-mcp)
-- [Tools](https://github.com/chandhoke/archival-imagery-mcp)
-- [SDK](https://github.com/hay/rijksmuseumapi)
-- [SDK](https://github.com/yutongquan/rijksmuseum_py)
-- [Code Examples](https://github.com/Q42/SimpleOAIHarvester)
+- [Blog](https://www.rijksmuseum.nl/en/stories)
+- [Terms of service](https://www.rijksmuseum.nl/en/data/policy)
+- [GitHub](https://github.com/Rijksmuseum)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.6** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 31.2 |
+| Contract governance | 27.3 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 19.0 |
+| Access clarity | 28.9 |
+
+**Agent readiness 26.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.6** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/rijksmuseum/](https://apis.io/providers/rijksmuseum/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Rijksmuseum: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/rijksmuseum/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
